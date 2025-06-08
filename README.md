@@ -57,7 +57,7 @@ Or with Node.js live-server:
 npx live-server
 ```
 
-📜 License
+## 📜 License
 
 This project is intended for non-commercial use. The code is provided as-is.
 
