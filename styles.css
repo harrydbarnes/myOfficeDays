@@ -1,0 +1,1411 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+:root {
+  --brand-color: #5B3EFD;
+  --light-brand: #d6cffe;
+  --dark-brand: #2671FD;
+  --highlight-pen-color: #3EFDBA; /* New highlight color */
+  --light-brand-button-background: #a995fd; /* Lighter shade for specific button */
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Outfit", sans-serif;
+}
+
+body {
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+  font-family: "Outfit", sans-serif;
+}
+
+.container {
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+header {
+  background-color: var(--brand-color);
+  color: white;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px 10px 0 0;
+  margin-bottom: 15px;
+  /* Added for new share icon */
+  display: flex;
+  justify-content: space-between; /* Default for mobile, overridden for desktop */
+  align-items: center;
+}
+
+h1#main-heading { /* Target specific h1 for dynamic text */
+  font-size: 1.8rem;
+  letter-spacing: 0.5px;
+  display: flex; /* For flex alignment of dynamic parts */
+  justify-content: center; /* Center the combined text */
+  align-items: baseline; /* Align text parts nicely */
+  margin-right: auto; /* Pushes icon to the right */
+}
+h1#main-heading .schedule-name-highlight {
+  background-color: var(--highlight-pen-color);
+  color: black !important; /* Ensure text is black */
+  padding: 0.1em 0.25em;
+  border-radius: 3px;
+  margin-right: 0.15em; /* Space before " Office Days" */
+  white-space: nowrap; /* Prevent highlighted name from wrapping */
+}
+h1#main-heading .static-text {
+  white-space: nowrap;
+}
+
+#new-share-icon {
+    background: none;
+    border: none;
+    font-size: 1.8rem; /* Adjust as needed, ensures visibility */
+    color: white;
+    cursor: pointer;
+    padding: 5px; /* For easier clicking */
+    margin-left: 15px; /* Space from the title */
+    line-height: 1; /* Helps align some font icons better */
+}
+
+#new-share-icon:hover {
+    opacity: 0.8; /* Simple hover effect */
+}
+
+
+.flex-container {
+  display: flex;
+  flex-direction: row; /* Ensure row direction */
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.next-week {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 145px; /* Adjusted base flex-basis */
+}
+
+.next-week h2 {
+  color: var(--brand-color);
+  margin-bottom: 10px;
+  letter-spacing: 0.3px;
+}
+
+.next-week-days {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* Updated Schedule Selector Styles */
+.schedule-selector-wrapper {
+    display: flex;
+    flex-direction: column; /* Stack controls row and dropdown */
+    gap: 10px; /* Space between controls row and dropdown */
+    background-color: white;
+    border-radius: 10px;
+    padding: 15px; /* Preserved padding */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 145px; /* Adjusted base flex-basis */
+}
+
+.schedule-selector-controls {
+    display: flex;
+    align-items: center; /* Vertically align items */
+    gap: 10px; /* Space between label and buttons, or buttons themselves */
+    width: 100%;
+    flex-wrap: wrap; /* Allow items to wrap */
+    row-gap: 5px; /* Vertical spacing if items wrap */
+}
+
+.schedule-selector-controls label {
+    display: block;
+    font-weight: bold;
+    color: var(--brand-color);
+    font-size: 1rem;
+    /* margin-bottom: 0px; -- Removed, row-gap on parent will handle spacing */
+    margin-right: auto; /* Pushes Edit and Add buttons to the right */
+}
+
+#edit-schedules-button { /* Shared styles for edit button */
+    background-color: var(--brand-color);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+    width: auto;
+    height: auto;
+    line-height: normal;
+    flex-shrink: 0;
+}
+
+#add-new-schedule-button { /* Specific style for add button */
+    background-color: var(--brand-color); /* Use new lighter color */
+    color: white; /* Keeping text color white, adjust if contrast is an issue */
+    border: none;
+    padding: 8px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+    /* Resetting styles that might have been for a round icon button */
+    width: auto;
+    height: auto;
+    line-height: normal;
+    flex-shrink: 0; /* Prevent buttons from shrinking too much */
+}
+
+#edit-schedules-button:hover {
+    background-color: var(--dark-brand);
+}
+
+#add-new-schedule-button:hover {
+    background-color: var(--dark-brand); /* Darken to the main brand color on hover */
+}
+
+.schedule-selector-dropdown-container { /* New container for the select dropdown */
+    width: 100%;
+}
+
+.schedule-selector-dropdown-container select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #fff;
+}
+
+
+.calendar-container {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+  margin-bottom: 15px;
+}
+
+.calendar-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.calendar-nav button {
+  background-color: var(--brand-color);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+}
+
+.calendar-nav button:hover {
+  background-color: var(--dark-brand);
+}
+
+.calendar-month {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--brand-color);
+  text-align: center;
+}
+
+.calendar {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  display: table; /* Ensure standard table behavior */
+  table-layout: auto; /* Or fixed; auto is default if not specified */
+}
+
+.calendar tr {
+  display: table-row; /* Ensure standard table row behavior */
+}
+
+.calendar th {
+  background-color: var(--brand-color);
+  padding: 10px; /* Default symmetric padding for all th cells */
+  /* padding-left: 12px; */ /* Removed: Specific left padding for first-child is handled below */
+  text-align: center;
+  border: none;
+  color: #FFFFFF;
+  display: table-cell; /* Ensure standard table cell behavior */
+}
+.calendar th:first-child {
+    border-top-left-radius: 10px;
+    padding-left: 12px; /* Specific increased left padding for the first header (Monday) */
+}
+.calendar th:last-child {
+    border-top-right-radius: 10px;
+    /* padding-right: 12px; /* Optionally balance padding if needed */
+}
+
+.calendar td {
+  border: none;
+  padding: 10px;
+  text-align: center;
+  height: 60px;
+  width: 14.28%; /* For 7-day week */
+  vertical-align: top;
+  position: relative;
+  /* Simplified and consistent box-shadow for all cells */
+  box-shadow: inset 0 0 0 1px #ddd; 
+  margin: 0;
+  display: table-cell; /* Ensure standard table cell behavior */
+}
+#setup-calendar td { /* For 5-day week in setup */
+    width: 20%;
+    /* Ensure setup calendar also uses the same consistent shadow if it's meant to look similar */
+    box-shadow: inset 0 0 0 1px #ddd; 
+    text-align: center; /* Restored for standard table cell centering */
+    vertical-align: middle; /* Restored for standard table cell centering */
+    /* Properties from the other #setup-calendar td rule are merged here */
+    cursor: pointer;
+    height: 50px; /* Existing height */
+    /* display: flex; -- Removed */
+    /* align-items: center; -- Removed */
+    /* justify-content: center; -- Removed */
+    position: relative; /* Added to ensure child absolute positioning is relative to this td */
+}
+
+#setup-calendar td .setup-date-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%; /* This ensures the flex container fills the td, allowing centering. */
+  line-height: 1; /* Added this line */
+}
+
+/* Removed the overly complex td + td and tr:last-child td rules 
+   to favor a single, consistent shadow rule on .calendar td 
+   and #setup-calendar td.
+   The 'inset' shadow ensures the "border" is drawn inside the cell's bounds,
+   which works well with border-collapse: separate and border-spacing: 0
+   to create thin, consistent lines without doubling up.
+*/
+
+.calendar tr:last-child td:first-child {
+    border-bottom-left-radius: 5px;
+}
+
+.calendar tr:last-child td:last-child {
+    border-bottom-right-radius: 5px;
+}
+
+
+.calendar .date {
+  font-size: 0.9rem; /* Default font size */
+  position: absolute;
+  top: 5px; /* Original desktop positioning */
+  /* Removed centering styles: transform, width, text-align */
+}
+
+.calendar .office-day {
+  background-color: var(--light-brand);
+  position: relative;
+}
+
+.calendar .office-day.show-office-highlight::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 4px;
+  background-color: var(--brand-color);
+}
+
+.calendar .past-day {
+  background-color: #f9f9f9;
+  color: #999;
+}
+
+.calendar .other-month {
+  background-color: #f5f5f5;
+  color: #aaa;
+  cursor: default;
+}
+#setup-calendar td.other-month {
+    cursor: default;
+    background-color: #f0f0f0;
+    color: #ccc;
+}
+
+
+.calendar .bank-holiday {
+  background-color: #e8f4ff;
+  color: #0066cc;
+}
+
+.calendar .festive-break {
+  background-color: #ffeded;
+  color: #cc0000;
+}
+
+.office-indicator, .festive-indicator, .holiday-indicator {
+  margin-top: 10px; /* Adjusted for date in top-left */
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--brand-color);
+  display: block; /* Ensure it takes its own line */
+}
+
+.holiday-indicator { color: #0066cc; }
+.festive-indicator { color: #cc0000; }
+
+.calendar-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  font-size: 0.9rem;
+}
+.legend-item { display: flex; align-items: center; }
+.legend-color { width: 20px; height: 20px; margin-right: 5px; border: 1px solid #ddd; }
+.office-color { background-color: var(--light-brand); position: relative; }
+.office-color::before {
+  content: ""; position: absolute; top: 0; left: 0;
+  height: 100%; width: 4px; background-color: var(--brand-color);
+}
+/* Added rule for when office highlight is disabled via toggle */
+.legend-color.office-color.highlight-disabled::before {
+  background-color: var(--light-brand) !important; /* Match the legend item's own background, effectively hiding the bar */
+}
+.bank-holiday-color { background-color: #e8f4ff; }
+.festive-break-color { background-color: #ffeded; }
+
+.toggle-group {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* For centering when parent is flex and allows expansion */
+    margin-right: auto; /* For centering */
+}
+.toggle-container {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+.toggle-container:first-child { margin-left: 0; }
+.toggle-label { margin-right: 10px; font-size: 0.9rem;  }
+.toggle-switch { position: relative; display: inline-block; width: 50px; height: 24px; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.slider {
+  position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc; transition: .4s; border-radius: 24px;
+}
+.slider:before {
+  position: absolute; content: ""; height: 18px; width: 18px;
+  left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%;
+}
+input:checked + .slider { background-color: var(--brand-color); }
+input:checked + .slider:before { transform: translateX(26px); }
+
+/* Note and Copyright Styles */
+.note { margin-top: 15px; font-size: 0.9rem; color: #555; text-align: center; }
+.copyright-notice { margin-top: 20px; font-size: 0.7rem; color: #666; text-align: center; padding-bottom: 20px; }
+
+/* User Setup Section */
+#user-setup-section {
+  position: relative; /* For positioning the close button */
+  background-color: #fdfdff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+#user-setup-section h2 { color: var(--brand-color); margin-bottom: 10px; font-size: 1.5rem; }
+#user-setup-section p { margin-bottom: 15px; font-size: 0.95rem; color: #555; }
+
+#setup-calendar-container {
+    padding-bottom: 20px;
+}
+
+#setup-calendar td.selected-setup-day {
+    background-color: #aadeff;
+    font-weight: bold;
+}
+/* Styles for #setup-calendar td were consolidated into the earlier rule */
+#setup-current-month-year {
+  font-weight: bold;
+}
+#user-setup-section h2 .setup-title-mobile {
+  display: none;
+}
+#user-setup-section h2 .setup-title-desktop {
+  display: inline;
+}
+
+
+.setup-actions-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+  margin-bottom: 10px;
+  padding: 10px 0;
+  border-top: 1px solid #eee;
+}
+
+#live-pattern-explanation {
+  flex-grow: 1;
+  margin-right: 20px;
+  font-size: 0.9em;
+  color: #333;
+  font-style: italic;
+  min-height: 30px;
+}
+
+#save-setup-button {
+  background-color: var(--brand-color);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+}
+#save-setup-button:hover {
+  background-color: var(--dark-brand);
+}
+
+/* #generate-share-link-button styles removed */
+
+
+#pattern-confirmation-message {
+  margin-top: 10px;
+  font-size: 0.9em;
+  font-style: italic;
+  text-align: center;
+}
+
+/* #share-link-section and #share-link-display styles removed */
+
+/* Targeting the first setup-subsection which is for Schedule Name */
+#user-setup-section > .setup-subsection:first-of-type {
+  margin-top: 15px;  /* Reduced margin above the box */
+  padding-top: 0px; /* Reduced padding above the text within the box */
+  padding-right: 15px; /* Explicitly keep other paddings */
+  padding-bottom: 15px;
+  padding-left: 15px;
+  /* margin-bottom will be inherited from the general .setup-subsection rule (20px) */
+}
+
+/* Styling for the UL within the setup section to remove bullet points */
+#user-setup-section ul {
+  list-style-type: none; /* Removes bullet points */
+  padding-left: 0;       /* Removes default padding */
+  margin-left: 0;        /* Removes default margin */
+}
+
+#user-setup-section ul li {
+  padding-left: 5px; /* Adds a small padding for alignment, adjust as necessary */
+  margin-bottom: 5px;    /* Optional: adds space between list items */
+}
+
+/* Container for old edit/reset buttons - review if needed */
+.calendar-container > div:nth-child(2) { /* This used to hold old buttons */
+  /* If this div is now empty or repurposed, adjust styles accordingly */
+  /* For now, assuming it might be empty or removed from HTML */
+  /* display: flex; justify-content: space-between; align-items: center; */
+  /* margin: 10px 0 15px 0; flex-wrap: wrap; gap: 10px; */
+  min-height: 1px; /* Prevents collapse if empty and you want to keep its space for some reason */
+}
+
+
+#summer-hours-note { font-weight: 500; }
+
+
+.setup-subsection {
+    background-color: #fdfdff;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+.setup-subsection h4 {
+    color: var(--dark-brand);
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.15rem;
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 10px;
+}
+.setup-subsection label { /* General label */
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 6px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #333;
+}
+.setup-subsection label[for*="enabled-setup"] { /* Specific for "Enable X" labels */
+    display: inline !important;
+    font-weight: bold !important;
+    margin-top:0 !important;
+    margin-bottom:0 !important;
+    vertical-align: middle;
+}
+
+.setup-subsection input[type="text"],
+.setup-subsection input[type="date"],
+.setup-subsection input[type="time"],
+.setup-subsection select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+}
+.setup-subsection input[type="checkbox"] {
+    margin-right: 8px;
+    vertical-align: middle;
+    transform: scale(1.1);
+}
+.setup-subsection .checkbox-group label {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 15px;
+    font-weight: normal;
+    font-size: 0.9rem;
+    color: #333;
+    cursor: pointer;
+}
+.setup-subsection .checkbox-group label input[type="checkbox"] {
+    margin-right: 5px;
+}
+.setup-subsection small {
+    font-size: 0.8rem;
+    color: #666;
+    display: block;
+    margin-top: -8px;
+    margin-bottom: 10px;
+}
+
+/* Shared Link Actions styling adjustments */
+#shared-link-actions {
+    border: 1px solid var(--light-brand);
+    background-color: #f4f0ff;
+    margin-top: 10px;
+    margin-bottom:10px;
+    padding: 15px;
+    border-radius: 5px;
+    /* display: flex; REMOVED - .shared-link-info is the flex container now */
+    /* flex-direction: column; REMOVED */
+}
+
+.shared-link-info {
+    display: flex; /* Aligns p and buttons in a row */
+    align-items: center; /* Vertically aligns items */
+    gap: 10px; /* Space between p and first button, and between buttons */
+    flex-wrap: wrap; /* Allows wrapping on small screens */
+}
+
+#shared-link-actions p {
+    margin-bottom: 0; /* Removed bottom margin as gap handles spacing */
+    font-weight: bold;
+    color: var(--brand-color);
+    margin-right: auto; /* Pushes the following buttons to the right */
+}
+
+/* General button styling for buttons within #shared-link-actions */
+#shared-link-actions button {
+    background-color: var(--brand-color);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+    flex-shrink: 0; /* Prevent buttons from shrinking too much */
+}
+#shared-link-actions button:hover {
+    background-color: var(--dark-brand);
+}
+/* Specific buttons #add-shared-to-my-schedules and #apply-shared-as-my-schedule inherit above */
+
+
+/* --- New Styles for Schedule List Editor Modal --- */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.5); /* Dim background */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10vh auto; /* 10% from top, centered. vh for viewport height responsiveness */
+    padding: 25px;
+    border: 1px solid #bbb;
+    width: 90%;
+    max-width: 550px; /* Max width for the modal */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 20px;
+}
+
+.modal-header h3 {
+    color: var(--brand-color);
+    margin: 0;
+    font-size: 1.4rem;
+}
+
+.close-modal-button {
+    color: #ff0000; /* vivid red */
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #e0e0e0; /* lighter grey */
+    padding: 0px 6px; /* new padding */
+    border-radius: 3px; /* new border-radius */
+    text-decoration: none; /* Ensure no underline from default button styles */
+    line-height: 1; /* May help vertical alignment of 'X' with new background */
+}
+
+.close-modal-button:hover,
+.close-modal-button:focus {
+    color: #e60000; /* slightly darker/more intense vivid red */
+    background-color: #cccccc; /* slightly darker light grey */
+    text-decoration: none;
+}
+
+.modal-body {
+    margin-bottom: 20px;
+    max-height: 60vh; /* Limit height and allow scrolling */
+    overflow-y: auto;
+    padding-right: 10px; /* For scrollbar visibility */
+}
+
+.schedule-editor-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 5px;
+    border-bottom: 1px solid #f0f0f0;
+}
+.schedule-editor-item:last-child {
+    border-bottom: none;
+}
+
+.schedule-editor-name {
+    font-size: 1.05rem;
+    color: #333;
+    flex-grow: 1; /* Allow name to take space */
+    margin-right: 10px; /* Space between name and action buttons */
+}
+
+.schedule-editor-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between action buttons */
+    flex-shrink: 0; /* Prevent action buttons from shrinking */
+}
+
+.schedule-editor-actions button {
+    background: none;
+    border: 1px solid #ccc;
+    color: #555;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+.schedule-editor-actions button:hover {
+    opacity: 0.8;
+}
+
+.schedule-editor-actions .star-button {
+    font-size: 1.3rem; /* Larger star icon */
+    border: none;
+    padding: 2px 5px;
+    color: #ccc; /* Default (not favourite) */
+}
+.schedule-editor-actions .star-button.is-favourite {
+    color: #FFC107; /* Gold/Yellow for favourite */
+}
+.schedule-editor-actions .star-button:hover {
+    color: #FFC107; /* Show potential on hover */
+}
+
+
+.schedule-editor-actions .change-schedule-button {
+    color: var(--brand-color);
+    border-color: var(--brand-color);
+}
+.schedule-editor-actions .change-schedule-button:hover {
+    background-color: var(--light-brand);
+}
+
+.schedule-editor-actions .delete-schedule-button {
+    color: #d9534f;
+    border-color: #d9534f;
+}
+.schedule-editor-actions .delete-schedule-button:hover {
+    background-color: #fdd; /* Light red on hover */
+}
+
+.modal-footer {
+    margin-top: auto; /* Pushes footer to bottom if content is short */
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+    text-align: right; /* Align button to the right */
+}
+
+#reset-all-schedules-editor-button {
+    background-color: #6c757d; /* Bootstrap's secondary/gray */
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+#reset-all-schedules-editor-button:hover {
+    background-color: #5a6268;
+}
+
+/* New Container for Special Periods Configuration */
+.special-periods-config-container {
+  display: flex;
+  gap: 15px; 
+  margin-bottom: 20px; /* Add some space below the container */
+}
+
+.special-periods-config-container > .setup-subsection {
+  flex: 1; /* Each child takes equal width */
+  min-width: 280px; /* Prevent sections from becoming too narrow before wrapping */
+}
+
+/* Media Query for smaller screens to stack special periods */
+@media (max-width: 768px) {
+  .special-periods-config-container {
+    flex-direction: column;
+    gap: 0; /* Reset gap, margin-bottom on items will handle spacing */
+  }
+  /* Individual .setup-subsection already has margin-bottom, so no need to re-add */
+}
+
+/* Toast Notification Styles */
+#toast-notification {
+    position: fixed;
+    top: 20px; 
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.85); /* Dark, semi-transparent */
+    color: white;
+    padding: 16px 28px;
+    border-radius: 8px;
+    z-index: 2000; /* Ensure it's on top */
+    opacity: 0; /* Initially fully transparent */
+    visibility: hidden; /* Initially hidden */
+    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out, top 0.4s ease-in-out; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+#toast-notification p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500; /* Make text slightly bolder */
+    text-align: center;
+}
+
+#toast-notification.toast-visible {
+    opacity: 1;
+    visibility: visible;
+    top: 30px; /* Slide down slightly when visible */
+}
+
+/* Blurred Background Effect */
+.container.blur-active { 
+    filter: blur(4px); /* Adjusted blur amount */
+    transition: filter 0.3s ease-out;
+    pointer-events: none; /* Prevent interaction with blurred content */
+}
+/* Ensure toast itself is not blurred if it were inside a blurred container (it's not, but good practice) */
+#toast-notification.blur-active {
+    filter: none;
+}
+
+/* Hide share icon when setup is active */
+body.setup-active header #new-share-icon {
+    display: none;
+}
+
+
+/* --- Desktop Styles --- */
+@media (min-width: 769px) {
+  header {
+    position: relative; /* For absolute positioning of the icon */
+    justify-content: center; /* Center the H1 */
+  }
+  h1#main-heading {
+    margin-right: 0; /* Override the auto margin */
+  }
+  #new-share-icon {
+    position: absolute;
+    right: 20px; /* Align with header padding */
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 0; /* Remove any interfering margin */
+  }
+
+  .flex-container { flex-direction: row; flex-wrap: nowrap; }
+  .next-week, .schedule-selector-wrapper { flex: 1; }
+  .heading-long { display: block; }
+  .heading-short { display: none; }
+  .toggle-group { 
+    justify-content: flex-end; /* Aligns children (toggle-containers) to the end of this group */
+    width: auto; /* Group shrinks to content */
+    margin-top: 0;
+    margin-left: auto; /* Pushes the group itself to the right in its parent flex container */
+    margin-right: 0; /* Clears any base auto right margin */
+  }
+
+  header {
+    position: relative; /* For absolute positioning of the icon */
+    justify-content: center; /* Center the H1 */
+  }
+  h1#main-heading {
+    margin-right: 0; /* Override the auto margin */
+  }
+  #new-share-icon {
+    position: absolute;
+    right: 20px; /* Align with header padding */
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 0; /* Remove any interfering margin */
+  }
+
+  .calendar-container > .calendar-nav { display: block; text-align: center; }
+  .calendar-container > .calendar-nav .calendar-month { display: inline-block; }
+  .calendar-container > .calendar-nav button {
+     position: absolute; top: 50%; transform: translateY(-50%);
+  }
+  .calendar-container > .calendar-nav #prev-month { left: 0; }
+  .calendar-container > .calendar-nav #next-month { right: 0; }
+
+  #setup-calendar-container .calendar-nav {
+    display: flex; justify-content: center; position: relative;
+  }
+   #setup-calendar-container .calendar-nav button {
+    position: static; transform: none;
+  }
+
+  /* Desktop specific adjustment for date position - Removed as base is now centered */
+}
+
+/* --- Mobile Styles --- */
+@media (max-width: 768px) {
+  #user-setup-section h2 .setup-title-desktop { display: none; }
+  #user-setup-section h2 .setup-title-mobile { display: inline; }
+
+  .calendar td { padding: 5px; height: 50px; }
+  .heading-long { display: none; }
+  .heading-short { display: block; }
+  .next-week-days { font-size: 1rem; }
+
+  .flex-container {
+      flex-direction: row;
+      flex-wrap: wrap;
+      /* margin-bottom: 15px; /* This is on the container itself */
+  }
+  /* .next-week, .schedule-selector-wrapper combined rule removed and separated below */
+  .next-week {
+      flex-grow: 0; /* Do not grow beyond basis */
+      flex-shrink: 1; /* Allow shrinking */
+      flex-basis: 30%; /* Smaller portion of the space */
+      margin-bottom:15px;
+      padding: 20px; /* Reset padding for medium screens */
+  }
+  .schedule-selector-wrapper {
+      flex-grow: 1; /* Grow to take available space */
+      flex-shrink: 1; /* Allow shrinking */
+      flex-basis: 65%; /* Larger portion of the space */
+      margin-bottom:15px;
+      padding: 15px; /* Reset its specific padding */
+  }
+  .next-week h2 { font-size: 1.3rem; } /* Reset font size */
+  .next-week-days { font-size: 1.2rem; } /* Reset font size */
+  .schedule-selector-controls label { font-size: 1rem; } /* Reset font size */
+   #add-new-schedule-button, #edit-schedules-button { /* Reset button styles */
+        padding: 8px 14px;
+        font-size: 0.9rem;
+    }
+  .schedule-selector-dropdown-container select { /* Reset select styles */
+      padding: 10px;
+      font-size: 1rem;
+  }
+
+
+  .calendar .date {
+      /* Base style now handles centering. Font size can be adjusted here if needed. */
+      font-size: 0.8rem; /* Adjusted for smaller screens */
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%; /* Important for text-align to work with transform */
+      text-align: center;
+  }
+  .office-indicator, .holiday-indicator, .festive-indicator {
+      font-size: 0.7rem;
+      margin-top: 18px; /* Adjust if date position changed, or if indicators are removed */
+  }
+  h1#main-heading { font-size: 1.3rem; letter-spacing: 0.3px; }
+  h2, .next-week h2 { font-size: 1.3rem; letter-spacing: 0.2px; }
+  .calendar-month { font-size: 1.5rem; display: block; }
+  .calendar-nav button { padding: 6px 12px; font-size: 0.9rem; position: static; transform: none; }
+  .calendar-nav { display: flex; justify-content: space-between; text-align: left; }
+  #setup-calendar-container .calendar-nav { justify-content: center; }
+
+  .calendar-options { flex-direction: column; align-items: flex-start; }
+  .legend { width: 100%; justify-content: flex-start; margin-bottom: 10px; }
+  .toggle-group {
+      flex-direction: row; 
+      justify-content: space-between; /* Space them out on the line */
+      gap: 15px; /* Reduced gap, acts as column and row gap */
+      width: 100%; 
+      margin-left: 0; 
+      margin-top: 10px; 
+      flex-wrap: wrap; /* Allow wrapping */
+  }
+  .toggle-container { 
+      margin-left: 0; 
+      margin-bottom: 0; /* Remove bottom margin, rely on parent's gap */
+      /* flex-basis should allow them to fit if possible, remove fixed basis */
+      /* justify-content: center; Removed, alignment handled by parent or default */
+  }
+  .toggle-container:first-child { 
+      /* flex-basis: auto; Removed, behaves like other toggle-containers */
+  }
+  .calendar td { min-height: 50px; padding-bottom: 25px; }
+
+  #setup-calendar td { height: 40px; font-size: 0.9rem; }
+
+  /* Mobile centering for setup calendar date numbers */
+  #setup-calendar td .setup-date-container {
+    display: block; /* Override flex from base */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%; /* For text-align: center with transform */
+    height: auto; /* Override base height: 100% */
+    text-align: center;
+    /* line-height: 1; is inherited and fine */
+  }
+
+  .setup-actions-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  #live-pattern-explanation {
+    margin-right: 0;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  #save-setup-button {
+    width: 100%;
+  }
+  .setup-subsection .checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .setup-subsection .checkbox-group label {
+    flex-basis: calc(50% - 10px);
+    margin-bottom: 8px;
+  }
+
+  /* #share-link-section, #share-link-display, #generate-share-link-button mobile styles removed */
+
+  /* Shared Link Actions on Mobile */
+  .shared-link-info {
+     /* Rely on flex-wrap by default */
+  }
+  #shared-link-actions button { /* This applies to both buttons inside */
+     /* Consider width: 100% if they wrap and you want them full width */
+  }
+
+
+  .modal-content { /* Modal adjustments on mobile */
+        margin: 5vh auto;
+        padding: 20px;
+    }
+    .modal-header h3 {
+        font-size: 1.2rem;
+    }
+    .schedule-editor-item { /* Ensure schedule name and actions are on the same line on mobile */
+        flex-direction: row; /* Changed from column */
+        align-items: center; /* Added for vertical alignment */
+        justify-content: space-between; /* Added to space out name and actions */
+        gap: 8px;
+    }
+    .schedule-editor-actions { /* Action buttons container adjustments for row layout */
+        /* width: 100%; */ /* Removed as it can conflict with flex-direction: row items */
+        justify-content: flex-end;
+        /* flex-shrink: 0; is already in base style, which is good */
+    }
+
+}
+
+/* Styles for small screens, ensuring side-by-side with potential wrapping */
+@media (max-width: 580px) {
+    .flex-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    /* .next-week, .schedule-selector-wrapper combined rule removed and separated below */
+    .next-week {
+        flex-grow: 0; /* Less emphasis on growing */
+        flex-shrink: 1;
+        flex-basis: calc(35% - 8px); /* Smaller percentage, accounting for gap */
+        min-width: 110px; /* Minimum width before wrapping or extreme squish */
+        margin-bottom: 10px;
+        padding: 15px;
+    }
+    .schedule-selector-wrapper {
+        flex-grow: 1; /* Takes more space */
+        flex-shrink: 1;
+        flex-basis: calc(65% - 7px); /* Larger percentage, accounting for gap */
+        min-width: 0; /* Original value */
+        margin-bottom: 10px;
+        padding: 12px; /* Example for schedule selector */
+    }
+    .next-week h2 { font-size: 1.2rem; }
+    .next-week-days { font-size: 1rem; }
+    .schedule-selector-controls label { font-size: 0.95rem; }
+
+    /* New styles for #shared-link-actions on mobile */
+    #shared-link-actions {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e0e0e0; /* Matching other white blocks */
+        margin-top: 0; /* Adjust if too close to elements above */
+        margin-bottom: 15px; /* Spacing after */
+        /* padding: 15px; /* Base style already has 15px */
+    }
+
+    .shared-link-info {
+        flex-direction: row; /* Changed from column to row */
+        align-items: center;   /* Align items vertically */
+        flex-wrap: wrap; /* Allow items to wrap */
+    }
+    #shared-link-actions p {
+        margin-right: 0; /* Remove auto margin when stacking */
+        margin-bottom: 10px; /* Add space below paragraph when stacked */
+        text-align: center; /* Center text when stacked */
+        flex-basis: 100%; /* Make paragraph take full width */
+    }
+    #add-shared-to-my-schedules,
+    #apply-shared-as-my-schedule {
+        flex-grow: 1; /* Allow buttons to grow and share space */
+        flex-basis: auto; /* Or specific min-width like calc(50% - 5px) */
+        margin-left: 0; /* Reset any horizontal margins */
+        margin-bottom: 5px; /* Space if they wrap or for elements below */
+        /* width: 100%; /* REMOVED - flex-grow will handle sizing */
+    }
+}
+
+
+/* Very Small Screens */
+/* @media (max-width: 480px) rule REMOVED to prevent column stacking */
+
+/* Content Scaling for very small screens */
+@media (max-width: 420px) {
+  .flex-container {
+    gap: 8px; /* Smaller gap for very small screens */
+  }
+  .next-week, .schedule-selector-wrapper {
+    padding: 10px; /* Reduced padding */
+    /* flex-basis will be inherited from base (145px) or 580px media query if it applies */
+    /* They will try to fit side-by-side and wrap if necessary */
+    margin-bottom: 8px; /* Slightly reduced margin */
+  }
+
+  .next-week h2 {
+    font-size: 1.1rem; /* Reduced font size */
+    letter-spacing: 0.1px;
+  }
+  .next-week-days {
+    font-size: 0.9rem; /* Reduced font size */
+  }
+  .schedule-selector-controls label {
+    font-size: 0.9rem; /* Reduced font size */
+  }
+  #add-new-schedule-button, #edit-schedules-button {
+    padding: 6px 8px; /* Smaller button padding */
+    font-size: 0.8rem; /* Smaller button font */
+  }
+  .schedule-selector-dropdown-container select {
+    padding: 7px; /* Smaller select padding */
+    font-size: 0.85rem; /* Smaller select font */
+  }
+
+  /* Other general content scaling for very small screens */
+  .calendar td { padding: 3px; height: 40px; }
+  .calendar th { padding: 5px; font-size: 0.8rem; }
+  /* .calendar .date styling block removed from max-width: 420px as centering is now in base style */
+  #setup-calendar td {
+    /* text-align: center; This is now in the base #setup-calendar td style */
+  }
+  h1#main-heading { font-size: 1.2rem; white-space: normal; letter-spacing: 0.2px; }
+  .container { padding: 10px; }
+  .toggle-container { justify-content: flex-start; }
+
+  #save-setup-button,
+  #shared-link-actions button,
+  #reset-all-schedules-editor-button {
+    padding: 8px 12px; /* Adjusted padding */
+    font-size: 0.8rem; /* Adjusted font size */
+  }
+  .setup-subsection .checkbox-group label {
+    flex-basis: 100%; /* Stack checkboxes in setup */
+  }
+  .modal-footer {
+        text-align: center;
+    }
+    #reset-all-schedules-editor-button {
+        width: 100%;
+    }
+}
+
+/* Copyright notice styling for desktop */
+@media (min-width: 769px) {
+  .copyright-notice .copyright-em-statement { display: block; }
+}
+
+/* Chrome Extension Section Styles (Kept from original CSS) */
+.chrome-extension-section {
+  background-color: #f0f0f0; padding: 15px; text-align: center;
+  margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.chrome-extension-section .extension-title {
+  font-size: 1.4rem; color: #333; margin-bottom: 0;
+}
+.chrome-extension-section .download-link {
+  position: relative; display: inline-block; text-decoration: none;
+  color: var(--brand-color); cursor: pointer;
+}
+.chrome-extension-section .download-link::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  height: 3px; width: 0; background-color: var(--highlight-pen-color);
+  transition: width 0.5s ease-out 0.5s;
+}
+.chrome-extension-section.visible .download-link::after { width: 100%; }
+@keyframes vibrate {
+    0%, 100% { transform: translateX(0); } 20% { transform: translateX(-2px); }
+    40% { transform: translateX(2px); } 60% { transform: translateX(-1px); }
+    80% { transform: translateX(1px); }
+}
+.chrome-extension-section .download-link:hover {
+  animation-name: vibrate; animation-duration: 0.3s;
+  animation-iteration-count: 1; animation-timing-function: ease-in-out;
+}
+
+/* Added Day Selector Styles */
+.day-selector-row {
+    display: flex;
+    gap: 8px; /* Spacing between day squares */
+    margin-top: 5px;
+    margin-bottom: 10px; /* Space after the row */
+}
+
+.day-selector-square {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.9rem;
+    min-width: 40px; /* Ensure a decent width */
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    user-select: none; /* Prevent text selection on click */
+}
+
+.day-selector-square:hover {
+    border-color: var(--brand-color);
+}
+
+.day-selector-square.selected {
+    background-color: var(--brand-color);
+    color: white;
+    border-color: var(--brand-color);
+}
+/* Responsive adjustments for day selector (can be integrated with existing media queries if preferred) */
+@media (max-width: 768px) {
+  .day-selector-square {
+    padding: 6px 8px;
+    font-size: 0.85rem;
+    min-width: 35px;
+  }
+}
+
+@media (max-width: 480px) {
+  .day-selector-row {
+    flex-wrap: wrap; /* Allow day squares to wrap if needed */
+  }
+}
+
+/* Typing Indicator Animation for Header */
+.typing-indicator {
+    animation: blink 1s step-end infinite;
+    font-weight: normal; /* Ensure it's not bold by default from h1 */
+    color: inherit; /* Inherit color from parent (h1) */
+    /* If schedule-name-highlight was white on brand, this should be white too */
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+/* End Typing Indicator Animation */
+
+/* Configuration Section Animations */
+#summer-hours-config-inputs,
+#festive-break-config-inputs {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out, opacity 0.5s ease-out, margin-bottom 0.5s ease-out;
+    /* display: block; is implicitly handled by setup-subsection or set by JS */
+    /* Add margin-bottom to transition to prevent layout jumps with sibling elements */
+    margin-bottom: 0; /* Start with no margin when collapsed */
+}
+
+#summer-hours-config-inputs.config-section-visible,
+#festive-break-config-inputs.config-section-visible {
+    max-height: 600px; /* Adjust as needed to fit content */
+    opacity: 1;
+    margin-bottom: 12px; /* Restore original margin-bottom from .setup-subsection input */
+}
+/* End Configuration Section Animations */
+
+/* Setup Close Button */
+.setup-close-button {
+    position: absolute;
+    top: 20px; /* Adjusted to align with padding of section */
+    right: 20px; /* Adjusted to align with padding of section */
+    font-size: 1.5rem; /* Example: slightly smaller font for the 'x' if it's in a button shape */
+    color: #ff0000; /* More vivid red */
+    cursor: pointer;
+    font-weight: bold;
+    line-height: 1.5rem; /* Match font-size for better centering of 'x' */
+    padding: 5px 12px; /* Adjust padding to look like a button */
+    background-color: #e6e6e6; /* Lighter grey */
+    border-radius: 5px; /* Match other buttons */
+    border: none; /* Remove default border if any */
+}
+.setup-close-button:hover {
+    background-color: #cccccc; /* Slightly darker light grey */
+    color: #e60000; /* Slightly darker/more intense vivid red */
+}
+/* End Setup Close Button */
+
+/* Styling for the schedule name input placeholder */
+#schedule-name-input::placeholder { /* Standard */
+    font-style: italic;
+    /* color: #999; */ /* Optional: Consider a lighter color for placeholder */
+}
+#schedule-name-input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    font-style: italic;
+    /* color: #999; */
+}
+
+/* --- Responsive Fixes for Small Mobile Screens --- */
+
+/* Targeting iPhone SE (320px width) and similar small screens */
+@media (max-width: 360px) {
+    /* Fix for cut-off date/time inputs */
+    .setup-subsection input[type="date"],
+    .setup-subsection input[type="time"] {
+        padding-left: 6px; /* Reduce padding */
+        padding-right: 6px;
+        font-size: 0.9rem; /* Slightly smaller font */
+    }
+
+    /* Fix for legend wrapping */
+    .legend {
+        gap: 10px; /* Reduce gap between legend items */
+        font-size: 0.8rem; /* Slightly reduce font size for legend text */
+    }
+    .legend-item {
+        /* Minor adjustment to ensure they don't have extra space causing wrap */
+        margin-bottom: 2px; /* Add a little space if they do wrap, to prevent touching */
+    }
+    .legend-color {
+        width: 16px; /* Slightly smaller color box */
+        height: 16px;
+        margin-right: 4px; /* Slightly less margin */
+    }
+    .legend-color.office-color::before {
+        width: 3px; /* Adjust office highlight bar thickness */
+    }
+}
+#schedule-name-input::-moz-placeholder { /* Firefox 19+ */
+    font-style: italic;
+    /* color: #999; */
+    opacity: 1; /* Firefox adds a lower opacity by default */
+}
+#schedule-name-input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    font-style: italic;
+    /* color: #999; */
+}
+#schedule-name-input::-ms-input-placeholder { /* Microsoft Edge */
+    font-style: italic;
+    /* color: #999; */
+}
