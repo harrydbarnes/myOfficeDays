@@ -186,7 +186,7 @@
         </div>
       </div>
     </div>
-      
+
       <div class="setup-actions-container">
           <div id="live-pattern-explanation">
               Click days in the calendar to define your office schedule pattern.
@@ -229,12 +229,12 @@
         <div class="calendar-month" id="current-month">Month Year</div>
         <button id="next-month">Next &gt;</button>
       </div>
-      
+
       <div style="display: flex; justify-content: space-between; align-items: center; margin: 10px 0 15px 0; flex-wrap: wrap; gap: 10px;">
         </div>
 
       <!-- Share Link Section Removed -->
-      
+
       <table class="calendar" id="calendar">
         <thead id="calendar-header">
           <tr>
@@ -243,7 +243,8 @@
         </thead>
         <tbody id="calendar-body"></tbody>
       </table>
-      
+      <button id="add-to-calendar-button" class="button-style">Add to Your Calendar</button>
+
       <p id="summer-hours-note" class="note" style="display: none; font-weight: 500;"></p>
 
       <div class="calendar-options">
@@ -262,7 +263,7 @@
           </div>
         </div>
 
-        <div class="toggle-group"> 
+        <div class="toggle-group">
             <div class="toggle-container">
               <span class="toggle-label">Office Highlight</span>
               <label class="toggle-switch">
@@ -281,7 +282,7 @@
       </div>
   </div>
     <p class="copyright-notice">This site was created for non-commercial use for colleagues, friends, and family. Office hours displayed on site are generated for convenience of users.</p>
-  </div> 
+  </div>
 
   <div id="schedule-list-editor-modal" class="modal" style="display: none;">
     <div class="modal-content">
@@ -312,10 +313,10 @@
         const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
         let draftSelectedSetupDates = [];
-        
+
         let userSchedules = {
-            schedules: [], 
-            activeScheduleName: null 
+            schedules: [],
+            activeScheduleName: null
         };
 
         let activeScheduleData = getDefaultScheduleStructure();
@@ -323,7 +324,7 @@
         let showWeekends = localStorage.getItem('showWeekends') === 'true';
         let showOfficeHighlight = localStorage.getItem('showOfficeHighlight') !== 'false';
 
-        const bankHolidays2025 = [ 
+        const bankHolidays2025 = [
           new Date(2025, 0, 1), new Date(2025, 3, 18), new Date(2025, 3, 21),
           new Date(2025, 4, 5), new Date(2025, 4, 26), new Date(2025, 7, 25),
           new Date(2025, 11, 25), new Date(2025, 11, 26)
@@ -343,7 +344,7 @@
         const livePatternExplanationEl = document.getElementById('live-pattern-explanation');
         const patternConfirmationMessageEl = document.getElementById('pattern-confirmation-message');
         const saveSetupButton = document.getElementById('save-setup-button');
-        
+
         // New and modified buttons for schedule management
         const addNewScheduleButton = document.getElementById('add-new-schedule-button'); // This ID is reused for the "Add" text button
         const editSchedulesButton = document.getElementById('edit-schedules-button');
@@ -530,7 +531,7 @@
         function toggleConfigVisibility() {
             // Summer Hours
             if (summerHoursEnabledSetup.checked) {
-                summerHoursConfigInputs.style.display = 'block'; 
+                summerHoursConfigInputs.style.display = 'block';
                 // Timeout to allow display:block to take effect before class change triggers transition
                 setTimeout(() => summerHoursConfigInputs.classList.add('config-section-visible'), 10);
             } else {
@@ -558,7 +559,7 @@
             }
         }
 
-        function getDayName(dayValue, length = 'short') { 
+        function getDayName(dayValue, length = 'short') {
             const shortNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
             const longNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
             return length === 'long' ? longNames[dayValue] : shortNames[dayValue];
@@ -569,13 +570,13 @@
             const [hours, minutes] = timeString.split(':');
             const h = parseInt(hours, 10);
             const suffix = h >= 12 ? 'pm' : 'am';
-            const h12 = h % 12 || 12; 
+            const h12 = h % 12 || 12;
             return `${h12}${minutes === '00' ? '' : ':' + minutes}${suffix}`;
         }
 
        function formatDateWithOrdinal(date) {
             if (!(date instanceof Date) || isNaN(date)) {
-                return ""; 
+                return "";
             }
             const d = date.getDate();
             const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -595,7 +596,7 @@
         function getDefaultScheduleStructure(name = "") {
             const currentYear = new Date().getFullYear();
             const todayForDefaults = new Date();
-            
+
             let currentWeekMonday = new Date(todayForDefaults);
             currentWeekMonday.setDate(todayForDefaults.getDate() - ( (todayForDefaults.getDay() + 6) % 7) );
 
@@ -609,18 +610,18 @@
                     enabled: false,
                     startDate: currentWeekMonday.toISOString().split('T')[0],
                     endDate: `${currentYear}-08-29`, // Example end date
-                    affectedDays: [5], 
+                    affectedDays: [5],
                     finishTime: "15:00"
                 },
                 festiveBreak: {
                     enabled: false,
                     startDate: `${currentYear}-12-25`,
-                    endDate: `${currentYear + 1}-01-01` 
+                    endDate: `${currentYear + 1}-01-01`
                 },
-                loadedFromShareLink: false 
+                loadedFromShareLink: false
             };
         }
-        
+
         // --- Header Animation ---
         function animateHeader(scheduleName, mode = 'type') { // mode can be 'type' or 'prepareForInput'
             // Clear any existing animation timeouts
@@ -673,7 +674,7 @@
                 targetTextToType = defaultText;
                 highlightTarget = false;
             }
-            
+
             // If current text is "My" (default) and we want to type "My", no need to backspace.
             if (currentDynamicText === defaultText && targetTextToType === defaultText && mode === 'type') {
                 textToBackspace = "";
@@ -690,7 +691,7 @@
                 } else {
                     // Clear any existing highlight state from previous text
                     dynamicHeaderText.classList.remove('schedule-name-highlight');
-                    dynamicHeaderText.style.color = ''; 
+                    dynamicHeaderText.style.color = '';
 
                     if (mode === 'type') {
                         // console.log("animateHeader: Backspace complete, preparing to type:", targetTextToType);
@@ -748,11 +749,11 @@
             if (storedSchedules) {
                 try {
                     userSchedules = JSON.parse(storedSchedules);
-                    if (!Array.isArray(userSchedules.schedules)) { 
+                    if (!Array.isArray(userSchedules.schedules)) {
                         userSchedules.schedules = [];
                     }
                     if (!userSchedules.activeScheduleName && userSchedules.schedules.length > 0) {
-                        userSchedules.activeScheduleName = userSchedules.schedules[0].name; 
+                        userSchedules.activeScheduleName = userSchedules.schedules[0].name;
                     }
                 } catch (e) {
                     console.error("Failed to parse schedules from localStorage:", e);
@@ -766,7 +767,7 @@
 
         function saveSchedulesToLocalStorage() {
             localStorage.setItem('userSchedules', JSON.stringify(userSchedules));
-            populateScheduleDropdown(); 
+            populateScheduleDropdown();
         }
 
         function setActiveSchedule(scheduleName, skipHeaderAnimation = false) {
@@ -786,7 +787,7 @@
 
                 let nameForHeader = activeScheduleData.name;
                 // animateHeader itself will default to "My" if nameForHeader is empty, null, or "My"
-                
+
                 if (skipHeaderAnimation) {
                     if (nameForHeader && nameForHeader.trim() !== "" && nameForHeader.toLowerCase() !== defaultHeaderText.toLowerCase()) {
                         let finalName = nameForHeader;
@@ -831,9 +832,9 @@
                 }
             }
         }
-        
+
         function populateScheduleDropdown() {
-            scheduleSelectDropdown.innerHTML = ''; 
+            scheduleSelectDropdown.innerHTML = '';
             if (userSchedules.schedules.length === 0) {
                 const option = document.createElement('option');
                 option.value = "";
@@ -875,7 +876,7 @@
                 const currentDate = new Date(dateStr + 'T12:00:00');
                 const currentDateUTC = Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
                 const patternAnchorDateUTC = Date.UTC(patternAnchorDateObj.getFullYear(), patternAnchorDateObj.getMonth(), patternAnchorDateObj.getDate());
-                const diffInDays = Math.round((currentDateUTC - patternAnchorDateUTC) / (1000 * 60 * 60 * 24)); 
+                const diffInDays = Math.round((currentDateUTC - patternAnchorDateUTC) / (1000 * 60 * 60 * 24));
 
                 const weekOffset = Math.floor(diffInDays / 7);
                 const weekIndexInCycle = (weekOffset % 4 + 4) % 4;
@@ -892,7 +893,7 @@
             for (let weekKey in deducedSelections) {
                 deducedSelections[weekKey].sort((a, b) => a - b);
             }
-            
+
             let determinedPatternType = 'custom_4_week';
             let description = "";
             const w1S = JSON.stringify(deducedSelections.week1);
@@ -900,7 +901,7 @@
             const w3S = JSON.stringify(deducedSelections.week3);
             const w4S = JSON.stringify(deducedSelections.week4);
             const emptyS = JSON.stringify([]);
-            
+
             const allWeeksHaveSomeSelectionOrAreAllEmpty = (w1S !== emptyS || w2S !== emptyS || w3S !== emptyS || w4S !== emptyS);
 
             // Check for single day constant pattern first
@@ -941,7 +942,7 @@
                     determinedPatternType = 'abba';
                     description = `ABBA Pattern. W1&4: (${deducedSelections.week1.map(d => getDayName(d)).join(', ') || 'No days'}), W2&3: (${deducedSelections.week2.map(d => getDayName(d)).join(', ') || 'No days'}). Office Queen!`;
                 }
-            } else if (w1S !== emptyS && w2S === emptyS && w3S === emptyS && w4S === emptyS) { 
+            } else if (w1S !== emptyS && w2S === emptyS && w3S === emptyS && w4S === emptyS) {
                 // This case is for when only week 1 has selections.
                 // It's already handled by the 'constant_single_day' check if week1 has one day.
                 // If week1 has multiple days, it's a regular constant pattern.
@@ -956,7 +957,7 @@
                 deducedSelections.week2 = [...deducedSelections.week1];
                 deducedSelections.week3 = [...deducedSelections.week1];
                 deducedSelections.week4 = [...deducedSelections.week1];
-            } else if (allWeeksHaveSomeSelectionOrAreAllEmpty && sortedDates.length > 0) { 
+            } else if (allWeeksHaveSomeSelectionOrAreAllEmpty && sortedDates.length > 0) {
                 // This is the fallback for more complex or custom patterns
                 let activePatternWeeksCount = 0;
                 const weekPatternsForDesc = [];
@@ -965,7 +966,7 @@
                 if(w3S !== emptyS) { activePatternWeeksCount++; weekPatternsForDesc.push(`W3: ${deducedSelections.week3.map(d => getDayName(d)).join(', ')}`); }
                 if(w4S !== emptyS) { activePatternWeeksCount++; weekPatternsForDesc.push(`W4: ${deducedSelections.week4.map(d => getDayName(d)).join(', ')}`); }
 
-                if(activePatternWeeksCount === 1) { 
+                if(activePatternWeeksCount === 1) {
                     description = `Constant: ${ (deducedSelections.week1.map(d => getDayName(d)).join(', ') || deducedSelections.week2.map(d => getDayName(d)).join(', ') || deducedSelections.week3.map(d => getDayName(d)).join(', ') || deducedSelections.week4.map(d => getDayName(d)).join(', ') || 'No days')} weekly.`;
                     if (w1S !== emptyS) { deducedSelections.week2 = [...deducedSelections.week1]; deducedSelections.week3 = [...deducedSelections.week1]; deducedSelections.week4 = [...deducedSelections.week1]; }
                     else if (w2S !== emptyS) { deducedSelections.week1 = [...deducedSelections.week2]; deducedSelections.week3 = [...deducedSelections.week2]; deducedSelections.week4 = [...deducedSelections.week2]; }
@@ -980,7 +981,7 @@
                 } else if (activePatternWeeksCount > 0) {
                     description = `Custom Rotational: ${weekPatternsForDesc.join('; ')}.`;
                     determinedPatternType = 'custom_4_week';
-                } else { 
+                } else {
                     description = "Pattern unclear. Select more days or ensure consistency.";
                     determinedPatternType = 'none';
                 }
@@ -998,24 +999,24 @@
         }
 
         // --- Date Checks (using activeScheduleData) ---
-        function isBankHoliday(date) { 
+        function isBankHoliday(date) {
           return bankHolidays2025.some(holiday =>
             holiday.getDate() === date.getDate() && holiday.getMonth() === date.getMonth() && holiday.getFullYear() === date.getFullYear()
           );
         }
 
-        function isFestiveBreak(date) { 
+        function isFestiveBreak(date) {
             if (!activeScheduleData.festiveBreak || !activeScheduleData.festiveBreak.enabled ||
                 !activeScheduleData.festiveBreak.startDate || !activeScheduleData.festiveBreak.endDate) {
                 return false;
             }
-            const checkDate = new Date(date.getFullYear(), date.getMonth(), date.getDate()); 
+            const checkDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
             const festiveStart = new Date(activeScheduleData.festiveBreak.startDate + 'T00:00:00');
-            const festiveEnd = new Date(activeScheduleData.festiveBreak.endDate + 'T23:59:59'); 
+            const festiveEnd = new Date(activeScheduleData.festiveBreak.endDate + 'T23:59:59');
             return checkDate >= festiveStart && checkDate <= festiveEnd;
         }
-        
-        function isSummerHoursDay(date) { 
+
+        function isSummerHoursDay(date) {
             if (!activeScheduleData.summerHours || !activeScheduleData.summerHours.enabled ||
                 !activeScheduleData.summerHours.startDate || !activeScheduleData.summerHours.endDate ||
                 !activeScheduleData.summerHours.affectedDays || activeScheduleData.summerHours.affectedDays.length === 0) {
@@ -1024,33 +1025,33 @@
             const checkDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
             const summerStart = new Date(activeScheduleData.summerHours.startDate + 'T00:00:00');
             const summerEnd = new Date(activeScheduleData.summerHours.endDate + 'T23:59:59');
-            const dayOfWeek = date.getDay(); 
+            const dayOfWeek = date.getDay();
 
             return checkDate >= summerStart && checkDate <= summerEnd && activeScheduleData.summerHours.affectedDays.includes(dayOfWeek);
         }
 
-        function isOfficeDayInternal(date, patternDetails) { 
+        function isOfficeDayInternal(date, patternDetails) {
             if (!patternDetails || !patternDetails.patternAnchorDate || patternDetails.patternType === 'none' || !patternDetails.selections) {
                 return false;
             }
             if (date.getDay() === 0 || date.getDay() === 6) return false;
 
-            const patternAnchor = new Date(patternDetails.patternAnchorDate + 'T12:00:00'); 
-            let currentCheckingDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0, 0); 
+            const patternAnchor = new Date(patternDetails.patternAnchorDate + 'T12:00:00');
+            let currentCheckingDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0, 0);
 
             let currentCheckingDateMonday = new Date(currentCheckingDate);
             currentCheckingDateMonday.setDate(currentCheckingDate.getDate() - ((currentCheckingDate.getDay() + 6) % 7));
 
             const currentCheckingDateMondayUTC = Date.UTC(currentCheckingDateMonday.getFullYear(), currentCheckingDateMonday.getMonth(), currentCheckingDateMonday.getDate());
             const patternAnchorUTC = Date.UTC(patternAnchor.getFullYear(), patternAnchor.getMonth(), patternAnchor.getDate());
-            
+
             const diffInMilliseconds = currentCheckingDateMondayUTC - patternAnchorUTC;
             const diffInDays = Math.round(diffInMilliseconds / (1000 * 60 * 60 * 24));
             let weekOffset = Math.floor(diffInDays / 7);
-            
+
             let weekIndexInCycle;
             let targetWeekPattern;
-            const dayOfWeek = date.getDay(); 
+            const dayOfWeek = date.getDay();
 
             switch (patternDetails.patternType) {
                 case 'constant': targetWeekPattern = patternDetails.selections.week1; break;
@@ -1062,7 +1063,7 @@
                     weekIndexInCycle = (weekOffset % 4 + 4) % 4;
                     targetWeekPattern = (weekIndexInCycle < 2) ? patternDetails.selections.week1 : patternDetails.selections.week3;
                     break;
-                case 'abba': 
+                case 'abba':
                     weekIndexInCycle = (weekOffset % 4 + 4) % 4;
                     if (weekIndexInCycle === 0 || weekIndexInCycle === 3) {
                         targetWeekPattern = patternDetails.selections.week1;
@@ -1078,11 +1079,11 @@
             return targetWeekPattern && targetWeekPattern.includes(dayOfWeek);
         }
 
-        function isOfficeDay(date) { 
-            if (date.getDay() === 0 || date.getDay() === 6) return false; 
+        function isOfficeDay(date) {
+            if (date.getDay() === 0 || date.getDay() === 6) return false;
             if (isBankHoliday(date)) return false;
-            if (isFestiveBreak(date)) return false; 
-            
+            if (isFestiveBreak(date)) return false;
+
             return isOfficeDayInternal(date, activeScheduleData);
         }
 
@@ -1096,19 +1097,19 @@
 
             const firstDayOfMonth = new Date(year, month, 1);
             const daysInMonth = new Date(year, month + 1, 0).getDate();
-            let startingDayOfWeek = (firstDayOfMonth.getDay() + 6) % 7; 
+            let startingDayOfWeek = (firstDayOfMonth.getDay() + 6) % 7;
 
             let dateCounter = 1;
-            for (let i = 0; i < 6; i++) { 
+            for (let i = 0; i < 6; i++) {
                 let weekRow = document.createElement('tr');
                 let allCellsInRowAreBlank = true;
-                for (let j = 0; j < 5; j++) { 
+                for (let j = 0; j < 5; j++) {
                     let cell = document.createElement('td');
                     if ((i === 0 && j < startingDayOfWeek && dateCounter <= daysInMonth) || dateCounter > daysInMonth) {
                          cell.classList.add('other-month');
                     } else {
                         let currentDateObject = new Date(year, month, dateCounter, 12,0,0);
-                        let dayOfWeek = currentDateObject.getDay(); 
+                        let dayOfWeek = currentDateObject.getDay();
 
                         while ((dayOfWeek === 0 || dayOfWeek === 6) && dateCounter <= daysInMonth) {
                             dateCounter++;
@@ -1117,7 +1118,7 @@
                             dayOfWeek = currentDateObject.getDay();
                         }
 
-                        if (dateCounter > daysInMonth) { 
+                        if (dateCounter > daysInMonth) {
                             cell.classList.add('other-month');
                         } else {
                             allCellsInRowAreBlank = false;
@@ -1142,16 +1143,16 @@
                                 } else {
                                     draftSelectedSetupDates.push(clickedDateString);
                                 }
-                                renderSetupCalendar(setupCurrentCalendarMonth, setupCurrentCalendarYear); 
-                                deduceAndDisplayPattern(draftSelectedSetupDates); 
+                                renderSetupCalendar(setupCurrentCalendarMonth, setupCurrentCalendarYear);
+                                deduceAndDisplayPattern(draftSelectedSetupDates);
                             });
-                            dateCounter++; 
+                            dateCounter++;
                         }
                     }
                     weekRow.appendChild(cell);
                 }
                 setupCalendarBody.appendChild(weekRow);
-                if (dateCounter > daysInMonth && allCellsInRowAreBlank && i > 0) break; 
+                if (dateCounter > daysInMonth && allCellsInRowAreBlank && i > 0) break;
             }
         }
 
@@ -1164,18 +1165,18 @@
             updateCalendarHeader();
             calendarBody.innerHTML = '';
             currentMonthDisplay.textContent = `${monthNames[currentDisplayMonth]} ${currentDisplayYear}`;
-            
+
             const firstDayOfMonth = new Date(currentDisplayYear, currentDisplayMonth, 1);
             const lastDayOfMonth = new Date(currentDisplayYear, currentDisplayMonth + 1, 0);
-            
-            let dateCursor = new Date(firstDayOfMonth);
-            dateCursor.setDate(dateCursor.getDate() - ((firstDayOfMonth.getDay() + 6) % 7)); 
 
-            let safetyBreak = 0; 
+            let dateCursor = new Date(firstDayOfMonth);
+            dateCursor.setDate(dateCursor.getDate() - ((firstDayOfMonth.getDay() + 6) % 7));
+
+            let safetyBreak = 0;
             while (dateCursor <= lastDayOfMonth || (dateCursor.getMonth() === currentDisplayMonth && (dateCursor.getDay() !== 1 || showWeekends)) && safetyBreak < 42) {
                 const week = document.createElement('tr');
-                for (let i = 0; i < 7; i++) { 
-                    const currentDayOfWeek = dateCursor.getDay(); 
+                for (let i = 0; i < 7; i++) {
+                    const currentDayOfWeek = dateCursor.getDay();
                     const isWeekendDay = currentDayOfWeek === 0 || currentDayOfWeek === 6;
 
                     if (showWeekends || !isWeekendDay) {
@@ -1193,15 +1194,15 @@
                 }
                 safetyBreak++;
                 if (dateCursor.getMonth() > currentDisplayMonth && dateCursor > lastDayOfMonth && !showWeekends && (dateCursor.getDay() ===1 || dateCursor.getDay() ===0)) break;
-                if (dateCursor.getFullYear() > currentDisplayYear +1) break; 
+                if (dateCursor.getFullYear() > currentDisplayYear +1) break;
             }
         }
 
-        function createDateCell(date, displayDate, isOtherMonth) { 
+        function createDateCell(date, displayDate, isOtherMonth) {
             const cell = document.createElement('td');
             cell.innerHTML = `<div class="date">${displayDate}</div>`;
             if (isOtherMonth) cell.classList.add('other-month');
-            
+
             const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
             const cellDateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
@@ -1209,9 +1210,9 @@
                 cell.style.border = '2px solid var(--brand-color)'; cell.style.fontWeight = 'bold';
             }
             if (cellDateOnly < todayDateOnly) cell.classList.add('past-day');
-            
+
             let indicatorText = "";
-            if (isOfficeDay(date)) { 
+            if (isOfficeDay(date)) {
                 cell.classList.add('office-day');
                 if (showOfficeHighlight && !isOtherMonth) cell.classList.add('show-office-highlight');
                 indicatorText = "Office";
@@ -1221,15 +1222,15 @@
                 if (window.innerWidth > 768) {
                     cell.innerHTML += `<div class="office-indicator">${indicatorText}</div>`;
                 }
-            } else if (isBankHoliday(date)) { 
-                cell.classList.add('bank-holiday'); 
+            } else if (isBankHoliday(date)) {
+                cell.classList.add('bank-holiday');
                 if (window.innerWidth > 768) {
-                    cell.innerHTML += `<div class="holiday-indicator">Bank Holiday</div>`; 
+                    cell.innerHTML += `<div class="holiday-indicator">Bank Holiday</div>`;
                 }
-            } else if (isFestiveBreak(date)) { 
-                cell.classList.add('festive-break'); 
+            } else if (isFestiveBreak(date)) {
+                cell.classList.add('festive-break');
                 if (window.innerWidth > 768) {
-                    cell.innerHTML += `<div class="festive-indicator">Festive Break</div>`; 
+                    cell.innerHTML += `<div class="festive-indicator">Festive Break</div>`;
                 }
             }
             return cell;
@@ -1237,19 +1238,19 @@
 
         function updateNextWeekInfo() {
             const todayCal = new Date();
-            todayCal.setHours(12, 0, 0, 0); 
+            todayCal.setHours(12, 0, 0, 0);
 
             const nextMonday = new Date(todayCal);
-            const dayOfWeek = todayCal.getDay(); 
+            const dayOfWeek = todayCal.getDay();
             const daysToAdd = (dayOfWeek === 0) ? 1 : (7 - dayOfWeek) + 1;
             nextMonday.setDate(todayCal.getDate() + daysToAdd);
-            nextMonday.setHours(12,0,0,0); 
+            nextMonday.setHours(12,0,0,0);
 
             const officeDays = [];
-            for (let i = 0; i < 5; i++) { 
+            for (let i = 0; i < 5; i++) {
                 const checkDate = new Date(nextMonday);
                 checkDate.setDate(nextMonday.getDate() + i);
-                checkDate.setHours(12,0,0,0); 
+                checkDate.setHours(12,0,0,0);
 
                 if (isOfficeDay(checkDate)) {
                     let dayDesc = getDayName(checkDate.getDay());
@@ -1262,13 +1263,13 @@
             nextWeekDaysEl.textContent = officeDays.length > 0 ? officeDays.join(', ') : 'No office days next week';
         }
 
-        function updateSummerHoursDisplayNote() { 
+        function updateSummerHoursDisplayNote() {
             if (activeScheduleData && activeScheduleData.summerHours && activeScheduleData.summerHours.enabled &&
                 activeScheduleData.summerHours.startDate && activeScheduleData.summerHours.endDate &&
                 activeScheduleData.summerHours.affectedDays && activeScheduleData.summerHours.affectedDays.length > 0) {
-                
-                const startDate = new Date(activeScheduleData.summerHours.startDate + 'T00:00:00'); 
-                const endDate = new Date(activeScheduleData.summerHours.endDate + 'T00:00:00');   
+
+                const startDate = new Date(activeScheduleData.summerHours.startDate + 'T00:00:00');
+                const endDate = new Date(activeScheduleData.summerHours.endDate + 'T00:00:00');
                 const finishTime = formatTime12Hour(activeScheduleData.summerHours.finishTime);
                 const days = activeScheduleData.summerHours.affectedDays.map(d => getDayName(d, 'long')).join(', ');
 
@@ -1278,42 +1279,42 @@
                 summerHoursNoteEl.style.display = 'none';
             }
         }
-        
+
         function updateMainViewToggles() {
             weekendToggle.checked = showWeekends;
             officeHighlightToggle.checked = showOfficeHighlight;
-            updateSummerHoursDisplayNote(); 
+            updateSummerHoursDisplayNote();
         }
 
         function refreshDisplay() {
             generateMainCalendar();
             updateNextWeekInfo();
-            updateSummerHoursDisplayNote(); 
+            updateSummerHoursDisplayNote();
             updatePrevButtonText();
         }
 
         // --- Setup Section Logic ---
         function populateSetupForm(scheduleData) {
-            const data = scheduleData || getDefaultScheduleStructure(); 
+            const data = scheduleData || getDefaultScheduleStructure();
 
             scheduleNameInput.value = data.name || "";
             if (data.name && data.name !== getDefaultScheduleStructure(data.name).name) { // If it's an existing, non-default named schedule
                 scheduleNameInput.dataset.originalName = data.name;
-            } else { 
-                delete scheduleNameInput.dataset.originalName; 
+            } else {
+                delete scheduleNameInput.dataset.originalName;
             }
 
-            draftSelectedSetupDates = []; 
+            draftSelectedSetupDates = [];
 
             if (data.patternType !== 'none' && data.patternAnchorDate && data.selections) {
-                const displayMonth = setupCurrentCalendarMonth; 
+                const displayMonth = setupCurrentCalendarMonth;
                 const displayYear = setupCurrentCalendarYear;
                 const daysInDisplayMonth = new Date(displayYear, displayMonth + 1, 0).getDate();
 
                 for (let day = 1; day <= daysInDisplayMonth; day++) {
                     const dateToCheck = new Date(displayYear, displayMonth, day, 12, 0, 0);
-                    if (dateToCheck.getDay() >= 1 && dateToCheck.getDay() <= 5) { 
-                        if (isOfficeDayInternal(dateToCheck, data)) { 
+                    if (dateToCheck.getDay() >= 1 && dateToCheck.getDay() <= 5) {
+                        if (isOfficeDayInternal(dateToCheck, data)) {
                             const dateStr = `${dateToCheck.getFullYear()}-${String(dateToCheck.getMonth() + 1).padStart(2, '0')}-${String(dateToCheck.getDate()).padStart(2, '0')}`;
                             if(!draftSelectedSetupDates.includes(dateStr)) draftSelectedSetupDates.push(dateStr);
                         }
@@ -1334,7 +1335,7 @@
             summerDaysSelectorRow.innerHTML = ''; // Clear existing squares
 
             const affectedDaysFromSource = (data.summerHours && Array.isArray(data.summerHours.affectedDays)) ? data.summerHours.affectedDays : [];
-            
+
             // Ensure activeScheduleData.summerHours object and affectedDays array exist and are initialized for this session
             if (!activeScheduleData.summerHours) activeScheduleData.summerHours = {};
             activeScheduleData.summerHours.affectedDays = [...affectedDaysFromSource];
@@ -1374,13 +1375,13 @@
             festiveEndDateInput.value = data.festiveBreak.endDate || '';
 
             toggleConfigVisibility(); // Set initial visibility based on loaded data
-            
-            renderSetupCalendar(setupCurrentCalendarMonth, setupCurrentCalendarYear); 
-            if(draftSelectedSetupDates.length > 0){ 
+
+            renderSetupCalendar(setupCurrentCalendarMonth, setupCurrentCalendarYear);
+            if(draftSelectedSetupDates.length > 0){
                 deduceAndDisplayPattern(draftSelectedSetupDates);
-            } else { 
-                if (data.patternType === 'none' || !data.patternDescription || data.patternDescription === "No schedule set." || data.patternDescription === "No days selected.") { 
-                     deduceAndDisplayPattern([]); 
+            } else {
+                if (data.patternType === 'none' || !data.patternDescription || data.patternDescription === "No schedule set." || data.patternDescription === "No days selected.") {
+                     deduceAndDisplayPattern([]);
                 } else if (data.patternDescription) { // If there's a description but no dates in current view (e.g. for a constant pattern)
                     livePatternExplanationEl.textContent = data.patternDescription;
                 }
@@ -1404,16 +1405,16 @@
                     closeButton.className = 'setup-close-button';
                     closeButton.innerHTML = '&times;'; // 'X' character
                     closeButton.title = 'Cancel Adding Schedule';
-                    
+
                     userSetupSection.insertBefore(closeButton, userSetupSection.firstChild); // Prepend to section
 
                     closeButton.addEventListener('click', () => {
                         toggleMainViewElements(false); // Hide setup, show main
                         const activeSchedule = userSchedules.schedules.find(s => s.name === userSchedules.activeScheduleName);
                         if (activeSchedule) {
-                            animateHeader(activeSchedule.name); 
+                            animateHeader(activeSchedule.name);
                         } else {
-                            animateHeader("My"); 
+                            animateHeader("My");
                         }
                     });
                 }
@@ -1429,10 +1430,10 @@
             patternConfirmationMessageEl.textContent = "";
             setupCurrentCalendarMonth = new Date().getMonth();
             setupCurrentCalendarYear = new Date().getFullYear();
-            
-            if (scheduleToEdit) { 
+
+            if (scheduleToEdit) {
                 populateSetupForm(scheduleToEdit);
-            } else { 
+            } else {
                 let newScheduleBaseName = "My Schedule";
                 let newScheduleName = newScheduleBaseName;
                 let count = 1;
@@ -1469,7 +1470,7 @@
         }
 
         function renderScheduleListEditor() {
-            scheduleListEditorBody.innerHTML = ''; 
+            scheduleListEditorBody.innerHTML = '';
             if (userSchedules.schedules.length === 0) {
                 scheduleListEditorBody.innerHTML = '<p style="text-align:center; color:#777; padding: 10px 0;">No schedules saved yet. Click "Add" on the main page to create one!</p>';
                 return;
@@ -1490,7 +1491,7 @@
                 const starButton = document.createElement('button');
                 starButton.className = 'star-button';
                 const isFavourite = schedule.name === userSchedules.activeScheduleName;
-                starButton.innerHTML = isFavourite ? '&#9733;' : '&#9734;'; 
+                starButton.innerHTML = isFavourite ? '&#9733;' : '&#9734;';
                 if (isFavourite) {
                     starButton.classList.add('is-favourite');
                 }
@@ -1527,11 +1528,11 @@
 
         function setFavouriteSchedule(scheduleName) {
             if (userSchedules.activeScheduleName !== scheduleName) {
-                activeScheduleData.loadedFromShareLink = false; 
-                setActiveSchedule(scheduleName, false); 
+                activeScheduleData.loadedFromShareLink = false;
+                setActiveSchedule(scheduleName, false);
             }
-            renderScheduleListEditor(); 
-            populateScheduleDropdown(); 
+            renderScheduleListEditor();
+            populateScheduleDropdown();
         }
 
         function editScheduleFromEditor(scheduleName) {
@@ -1543,7 +1544,7 @@
                 showSetupSection(scheduleToEdit); // Show setup form populated with this schedule
             } else {
                 alert("Could not find the schedule to edit. It might have been deleted.");
-                renderScheduleListEditor(); 
+                renderScheduleListEditor();
             }
         }
 
@@ -1564,20 +1565,20 @@
                 } else {
                     newActiveScheduleName = userSchedules.activeScheduleName;
                 }
-                
+
                 userSchedules.activeScheduleName = newActiveScheduleName;
-                saveSchedulesToLocalStorage(); 
+                saveSchedulesToLocalStorage();
 
                 if (newActiveScheduleName) {
-                    setActiveSchedule(newActiveScheduleName); 
-                } else { 
-                    setActiveSchedule(null); 
+                    setActiveSchedule(newActiveScheduleName);
+                } else {
+                    setActiveSchedule(null);
                 }
 
                 const setupNeeded = checkIfSetupRequired();
                 toggleMainViewElements(setupNeeded);
                 if (setupNeeded && userSchedules.schedules.length === 0) {
-                    populateSetupForm(getDefaultScheduleStructure("My Schedule")); 
+                    populateSetupForm(getDefaultScheduleStructure("My Schedule"));
                 }
                 renderScheduleListEditor();
             } else {
@@ -1593,10 +1594,10 @@
 
                 const setupNeeded = checkIfSetupRequired(); // will be true
                 toggleMainViewElements(setupNeeded);
-                populateSetupForm(getDefaultScheduleStructure("My Schedule")); 
+                populateSetupForm(getDefaultScheduleStructure("My Schedule"));
 
                 closeScheduleListEditor();
-                
+
                 patternConfirmationMessageEl.textContent = 'All schedules have been reset.';
                 patternConfirmationMessageEl.style.color = '#333';
                 setTimeout(() => { patternConfirmationMessageEl.textContent = ""; }, 3000);
@@ -1605,6 +1606,70 @@
             }
         }
 
+        function generateICalData(scheduleData) {
+            const icsEvents = [];
+            const today = new Date();
+            const originalActiveScheduleData = activeScheduleData; // Store original
+            activeScheduleData = scheduleData; // Temporarily set for isOfficeDay
+
+            try {
+                for (let i = 0; i < 365; i++) {
+                    const currentIterDate = new Date(today);
+                    currentIterDate.setDate(today.getDate() + i);
+
+                    if (isOfficeDay(currentIterDate)) { // isOfficeDay will use the temporarily set activeScheduleData
+                        const year = currentIterDate.getFullYear();
+                        const month = (currentIterDate.getMonth() + 1).toString().padStart(2, '0');
+                        const day = currentIterDate.getDate().toString().padStart(2, '0');
+                        const startDateString = `${year}${month}${day}`;
+
+                        const nextDay = new Date(currentIterDate);
+                        nextDay.setDate(currentIterDate.getDate() + 1);
+                        const nextYear = nextDay.getFullYear();
+                        const nextMonth = (nextDay.getMonth() + 1).toString().padStart(2, '0');
+                        const nextDayOfMonth = nextDay.getDate().toString().padStart(2, '0');
+                        const endDateString = `${nextYear}${nextMonth}${nextDayOfMonth}`;
+
+                        const scheduleNameCleaned = scheduleData.name ? scheduleData.name.replace(/[^a-zA-Z0-9]/g, "") : "schedule";
+                        const uid = `${scheduleNameCleaned}-${startDateString}@officeschedule.site`; // Using officeschedule.site as domain
+
+                        const dtStamp = new Date().toISOString().replace(/[-:.]/g, "").substring(0, 15) + "Z";
+
+                        icsEvents.push([
+                            "BEGIN:VEVENT",
+                            `UID:${uid}`,
+                            `DTSTAMP:${dtStamp}`,
+                            `DTSTART;VALUE=DATE:${startDateString}`,
+                            `DTEND;VALUE=DATE:${endDateString}`,
+                            "SUMMARY:In Office",
+                            "END:VEVENT"
+                        ].join("\\r\\n")); // Using \r\n for ICS line endings
+                    }
+                }
+            } finally {
+                activeScheduleData = originalActiveScheduleData; // Restore original
+            }
+
+            const header = [
+                "BEGIN:VCALENDAR",
+                "VERSION:2.0",
+                "PRODID:-//OfficeDays//NONSGML v1.0//EN",
+                "CALSCALE:GREGORIAN"
+            ].join("\\r\\n");
+
+            const footer = "\\r\\nEND:VCALENDAR";
+
+            return header + "\\r\\n" + icsEvents.join("\\r\\n") + footer;
+        }
+
+        function downloadICSFile(icsData, filename) {
+            const link = document.createElement('a');
+            link.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(icsData);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
 
         // --- Initial Load & Setup Check ---
         function checkAndInitialize() {
@@ -1658,7 +1723,7 @@
                     skipInitialAnimation = true; // "My" is the default, no need to animate if it's already showing or will be set directly
                 }
             }
-            
+
             // Determine if setup view is needed
             const setupNeeded = checkIfSetupRequired();
 
@@ -1688,7 +1753,7 @@
                 dynamicHeaderText.classList.remove('schedule-name-highlight'); // Ensure no highlight from previous state
                 animateHeader(scheduleNameToDisplayInitially);
             }
-            
+
             // Refresh display elements like calendar, next week info, toggles
             // This should happen after the active schedule (shared or local) is fully determined and possibly animated.
             refreshDisplay();
@@ -1738,7 +1803,7 @@
         addNewScheduleButton.addEventListener('click', function() {
             activeScheduleData.loadedFromShareLink = false;
             animateHeader(null, 'prepareForInput'); // Animate to show typing indicator
-            showSetupSection(null); 
+            showSetupSection(null);
             if (sharedLinkActionsDiv) { // Good practice to check if element exists
                 sharedLinkActionsDiv.style.display = 'none';
             }
@@ -1747,7 +1812,7 @@
         editSchedulesButton.addEventListener('click', showScheduleListEditor);
 
         closeModalButton.addEventListener('click', closeScheduleListEditor);
-        window.addEventListener('click', function(event) { 
+        window.addEventListener('click', function(event) {
             if (event.target == scheduleListEditorModal) {
                 closeScheduleListEditor();
             }
@@ -1835,19 +1900,19 @@
             };
 
             let scheduleIndexToUpdate = -1;
-            if (originalNameInForm) { 
+            if (originalNameInForm) {
                  scheduleIndexToUpdate = userSchedules.schedules.findIndex(s => s.name.toLowerCase() === originalNameInForm.toLowerCase());
             }
 
-            if (scheduleIndexToUpdate !== -1) { 
+            if (scheduleIndexToUpdate !== -1) {
                 userSchedules.schedules[scheduleIndexToUpdate] = newScheduleEntry;
-            } else { 
+            } else {
                 userSchedules.schedules.push(newScheduleEntry);
             }
-            
-            userSchedules.activeScheduleName = scheduleName; 
-            saveSchedulesToLocalStorage(); 
-            setActiveSchedule(scheduleName); 
+
+            userSchedules.activeScheduleName = scheduleName;
+            saveSchedulesToLocalStorage();
+            setActiveSchedule(scheduleName);
 
             toggleMainViewElements(false); // Show main view after saving
 
@@ -1858,15 +1923,15 @@
                 alert("Schedule updated. Remember to share the new link if this schedule was previously shared, as changes require a new link.");
             }
 
-            delete scheduleNameInput.dataset.originalName; 
+            delete scheduleNameInput.dataset.originalName;
             setTimeout(() => {
                 // userSetupSection.style.display = 'none'; // Already handled by toggleMainViewElements
                 patternConfirmationMessageEl.textContent = "";
             }, 2500);
         });
-        
+
         scheduleSelectDropdown.addEventListener('change', function() {
-            if (scheduleListEditorModal.style.display === 'block') { 
+            if (scheduleListEditorModal.style.display === 'block') {
                 closeScheduleListEditor();
             }
             if (sharedLinkActionsDiv.style.display === 'block') {
@@ -1874,8 +1939,8 @@
                 dynamicHeaderText.textContent = "My";
                 dynamicHeaderText.classList.remove('schedule-name-highlight');
             }
-            activeScheduleData.loadedFromShareLink = false; 
-            setActiveSchedule(this.value); 
+            activeScheduleData.loadedFromShareLink = false;
+            setActiveSchedule(this.value);
         });
 
         // generateShareLinkButton event listener removed
@@ -1985,7 +2050,7 @@
                         if (setupStillNeeded) {
                              populateSetupForm(userSchedules.schedules.length === 0 ? getDefaultScheduleStructure("My Schedule") : (tempActiveScheduleData || getDefaultScheduleStructure("My Schedule")));
                         } else if (tempActiveScheduleName) { // If not setup needed, and there was an active schedule
-                             setActiveSchedule(tempActiveScheduleName, false); 
+                             setActiveSchedule(tempActiveScheduleName, false);
                         }
                         // If setup not needed and no active schedule (e.g. all were deleted before shared link), it's a rare case.
                         // checkAndInitialize would typically handle this by forcing setup.
@@ -1998,16 +2063,16 @@
                 }
                 userSchedules.activeScheduleName = shared.name;
                 saveSchedulesToLocalStorage();
-                setActiveSchedule(shared.name, false); 
+                setActiveSchedule(shared.name, false);
                 sharedLinkActionsDiv.style.display = 'none';
                 toggleMainViewElements(false); // Ensure main view is shown
                 alert(`Schedule "${shared.name}" applied as your main schedule.`);
             }
         });
 
-        addSharedToMySchedulesButton.addEventListener('click', function() { 
+        addSharedToMySchedulesButton.addEventListener('click', function() {
             if (activeScheduleData && activeScheduleData.loadedFromShareLink) {
-                const sharedOriginalName = activeScheduleData.name; 
+                const sharedOriginalName = activeScheduleData.name;
                 const shared = JSON.parse(JSON.stringify(activeScheduleData));
                 delete shared.loadedFromShareLink;
 
@@ -2027,30 +2092,30 @@
                             count++;
                             newName = `${shared.name} (${count})`;
                         }
-                        shared.name = newName; 
+                        shared.name = newName;
                         userSchedules.schedules.push(shared);
                         addedAsNewName = true;
                     }
                 } else {
                     userSchedules.schedules.push(shared);
                 }
-                
+
                 // If there was no active schedule, make the newly added/updated one active by default.
                 // Or if the current active schedule was the one being overwritten.
                 if (!userSchedules.activeScheduleName || (overwritten && sharedOriginalName === userSchedules.activeScheduleName) || userSchedules.schedules.length === 1) {
-                    userSchedules.activeScheduleName = shared.name; 
+                    userSchedules.activeScheduleName = shared.name;
                 } // Otherwise, keep the existing active schedule.
-                
-                saveSchedulesToLocalStorage(); 
-                populateScheduleDropdown(); 
-                
+
+                saveSchedulesToLocalStorage();
+                populateScheduleDropdown();
+
                 sharedLinkActionsDiv.style.display = 'none';
 
-                let scheduleToMakeActiveInUI = userSchedules.activeScheduleName; 
+                let scheduleToMakeActiveInUI = userSchedules.activeScheduleName;
                 if (addedAsNewName){ // If newly added (and renamed), make it active
                     scheduleToMakeActiveInUI = newName;
                 } else if (overwritten && sharedOriginalName === userSchedules.activeScheduleName) { // If the active one was overwritten
-                    scheduleToMakeActiveInUI = shared.name; 
+                    scheduleToMakeActiveInUI = shared.name;
                 } else if (!userSchedules.activeScheduleName && userSchedules.schedules.length > 0) { // Fallback if none was active
                     scheduleToMakeActiveInUI = userSchedules.schedules[0].name;
                 }
@@ -2065,7 +2130,7 @@
                      // This case should be rare if a schedule was just added/updated
                      setActiveSchedule(null, false);
                 }
-                
+
                 toggleMainViewElements(checkIfSetupRequired());
 
                 if (addedAsNewName) {
@@ -2085,13 +2150,13 @@
         window.addEventListener('resize', updatePrevButtonText);
 
         // --- Initialisation Call ---
-        checkAndInitialize(); 
+        checkAndInitialize();
 
         // Event Listener for New Share Icon
         if (newShareIcon && toastNotification && toastMessage && mainContainer) {
             newShareIcon.addEventListener('click', function() {
                 let message = "";
-                let success = false;
+                // let success = false; // success variable was unused
 
                 if (!activeScheduleData || !activeScheduleData.name || activeScheduleData.patternType === 'none') {
                     if (userSchedules.schedules.length === 0 || !userSchedules.activeScheduleName) {
@@ -2103,7 +2168,7 @@
                     try {
                         const scheduleToShareMinimal = convertToCompactFormat(activeScheduleData);
                         const jsonString = JSON.stringify(scheduleToShareMinimal);
-                        
+
                         // Compression logic
                         const compressedData = pako.deflate(new TextEncoder().encode(jsonString), { level: 9 });
                         let compressedBinaryString = '';
@@ -2137,9 +2202,9 @@
                         message = "Error compressing link."; // Updated error message
                     }
                 }
-                
+
                 // If there was an error message set above (not handled by clipboard promise)
-                if (message) { // This 'if' might now be redundant if try-catch handles all message setting
+                if (message) {
                     toastMessage.textContent = message;
                     toastNotification.classList.add('toast-visible');
                     mainContainer.classList.add('blur-active');
@@ -2147,6 +2212,70 @@
                         toastNotification.classList.remove('toast-visible');
                         mainContainer.classList.remove('blur-active');
                     }, 2000);
+                }
+            });
+        }
+
+        const addToCalendarButton = document.getElementById('add-to-calendar-button');
+        if (addToCalendarButton) {
+            addToCalendarButton.addEventListener('click', function() {
+                if (!activeScheduleData || !activeScheduleData.name || activeScheduleData.patternType === 'none') {
+                    if (toastMessage && toastNotification && mainContainer) {
+                        toastMessage.textContent = "Please set up and save a schedule first, or ensure the active schedule has a defined pattern.";
+                        toastNotification.classList.add('toast-visible');
+                        mainContainer.classList.add('blur-active');
+                        setTimeout(() => {
+                            toastNotification.classList.remove('toast-visible');
+                            mainContainer.classList.remove('blur-active');
+                        }, 3000);
+                    }
+                    return;
+                }
+
+                if (toastMessage && toastNotification && mainContainer) {
+                    const toastHTML = `
+                        <p>Click your preferred calendar option:</p>
+                        <a href="#" id="download-ical-link" class="toast-button" style="display: block; margin: 5px 0; padding: 8px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; text-align: center;">Download iCal File (.ics)</a>
+                        <a href="#" id="download-google-link" class="toast-button" style="display: block; margin: 5px 0; padding: 8px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px; text-align: center;">For Google/Outlook/etc. (Download .ics)</a>
+                        <small style="display: block; margin-top: 10px;">Download the .ics file. You can then import it into iCal, Google Calendar, Outlook, and other calendar applications.</small>
+                    `;
+                    toastMessage.innerHTML = toastHTML;
+                    toastNotification.classList.add('toast-visible');
+                    mainContainer.classList.add('blur-active');
+
+                    const downloadIcalLink = document.getElementById('download-ical-link');
+                    const downloadGoogleLink = document.getElementById('download-google-link');
+
+                    function handleDownloadRequest() {
+                        if (activeScheduleData && activeScheduleData.name) {
+                            const icsData = generateICalData(activeScheduleData);
+                            const filename = activeScheduleData.name.replace(/[^a-zA-Z0-9_]/g, '_') + "_Office_Schedule.ics";
+                            downloadICSFile(icsData, filename);
+
+                            toastNotification.classList.remove('toast-visible');
+                            mainContainer.classList.remove('blur-active');
+                        }
+                    }
+
+                    if (downloadIcalLink) {
+                        downloadIcalLink.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            handleDownloadRequest();
+                        });
+                    }
+                    if (downloadGoogleLink) {
+                        downloadGoogleLink.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            handleDownloadRequest();
+                        });
+                    }
+
+                    toastNotification.addEventListener('click', function(e) {
+                        if (e.target === toastNotification) {
+                           toastNotification.classList.remove('toast-visible');
+                           mainContainer.classList.remove('blur-active');
+                        }
+                    } , { once: true });
                 }
             });
         }
