@@ -243,7 +243,7 @@
         </thead>
         <tbody id="calendar-body"></tbody>
       </table>
-      <button id="add-to-calendar-button" class="button-style">Add to Your Calendar</button>
+      <a href="#" id="add-to-calendar-text-trigger" style="text-decoration: underline; color: #51febb; cursor: pointer; display: block; text-align: center; margin: 15px auto;">Add to Your Calendar</a>
 
       <p id="summer-hours-note" class="note" style="display: none; font-weight: 500;"></p>
 
@@ -1608,16 +1608,16 @@
 
         function generateICalData(scheduleData) {
             const icsEvents = [];
-            const today = new Date();
-            const originalActiveScheduleData = activeScheduleData; // Store original
-            activeScheduleData = scheduleData; // Temporarily set for isOfficeDay
+            const today = new Date(); // This is the start date for calendar generation
+            const originalActiveScheduleData = activeScheduleData;
+            activeScheduleData = scheduleData;
 
             try {
                 for (let i = 0; i < 365; i++) {
                     const currentIterDate = new Date(today);
                     currentIterDate.setDate(today.getDate() + i);
 
-                    if (isOfficeDay(currentIterDate)) { // isOfficeDay will use the temporarily set activeScheduleData
+                    if (isOfficeDay(currentIterDate)) {
                         const year = currentIterDate.getFullYear();
                         const month = (currentIterDate.getMonth() + 1).toString().padStart(2, '0');
                         const day = currentIterDate.getDate().toString().padStart(2, '0');
@@ -1631,35 +1631,67 @@
                         const endDateString = `${nextYear}${nextMonth}${nextDayOfMonth}`;
 
                         const scheduleNameCleaned = scheduleData.name ? scheduleData.name.replace(/[^a-zA-Z0-9]/g, "") : "schedule";
-                        const uid = `${scheduleNameCleaned}-${startDateString}@officeschedule.site`; // Using officeschedule.site as domain
-
+                        const uid = `${scheduleNameCleaned}-${startDateString}@officeschedule.site`;
                         const dtStamp = new Date().toISOString().replace(/[-:.]/g, "").substring(0, 15) + "Z";
 
-                        icsEvents.push([
-                            "BEGIN:VEVENT",
-                            `UID:${uid}`,
-                            `DTSTAMP:${dtStamp}`,
-                            `DTSTART;VALUE=DATE:${startDateString}`,
-                            `DTEND;VALUE=DATE:${endDateString}`,
-                            "SUMMARY:In Office",
-                            "END:VEVENT"
-                        ].join("\\r\\n")); // Using \r\n for ICS line endings
+                        let eventString = "BEGIN:VEVENT\r\n";
+                        eventString += `UID:${uid}\r\n`;
+                        eventString += `DTSTAMP:${dtStamp}\r\n`;
+                        eventString += `DTSTART;VALUE=DATE:${startDateString}\r\n`;
+                        eventString += `DTEND;VALUE=DATE:${endDateString}\r\n`;
+                        eventString += "SUMMARY:In Office\r\n";
+                        eventString += "END:VEVENT";
+                        icsEvents.push(eventString);
                     }
                 }
+
+                // Add Reminder Event
+                const reminderStartDate = new Date(today);
+                reminderStartDate.setDate(today.getDate() + 365); // 365 days from the start of generation
+
+                const reminderYear = reminderStartDate.getFullYear();
+                const reminderMonth = (reminderStartDate.getMonth() + 1).toString().padStart(2, '0');
+                const reminderDay = reminderStartDate.getDate().toString().padStart(2, '0');
+                const reminderDateString = `${reminderYear}${reminderMonth}${reminderDay}`;
+
+                const reminderEndDateObj = new Date(reminderStartDate);
+                reminderEndDateObj.setDate(reminderStartDate.getDate() + 1);
+                const reminderEndYear = reminderEndDateObj.getFullYear();
+                const reminderEndMonth = (reminderEndDateObj.getMonth() + 1).toString().padStart(2, '0');
+                const reminderEndDayOfMonth = reminderEndDateObj.getDate().toString().padStart(2, '0');
+                const reminderEndDateString = `${reminderEndYear}${reminderEndMonth}${reminderEndDayOfMonth}`;
+
+                const scheduleNameForReminderUid = scheduleData.name ? scheduleData.name.replace(/[^a-zA-Z0-9]/g, "") : "schedule";
+                const reminderUid = `${scheduleNameForReminderUid}-reminder-${reminderDateString}@officeschedule.site`;
+                const reminderDtStamp = new Date().toISOString().replace(/[-:.]/g, "").substring(0, 15) + "Z";
+
+                let reminderEventString = "BEGIN:VEVENT\r\n";
+                reminderEventString += `UID:${reminderUid}\r\n`;
+                reminderEventString += `DTSTAMP:${reminderDtStamp}\r\n`;
+                reminderEventString += `DTSTART;VALUE=DATE:${reminderDateString}\r\n`;
+                reminderEventString += `DTEND;VALUE=DATE:${reminderEndDateString}\r\n`;
+                reminderEventString += "SUMMARY:Reminder: Re-add office days for next year\r\n";
+                reminderEventString += "END:VEVENT";
+                icsEvents.push(reminderEventString);
+
             } finally {
                 activeScheduleData = originalActiveScheduleData; // Restore original
             }
 
+            const calName = scheduleData.name ? scheduleData.name.replace(/[^a-zA-Z0-9_ -]/g, '') : "Office Schedule";
+
+            // Ensure all parts are joined by \r\n
             const header = [
                 "BEGIN:VCALENDAR",
                 "VERSION:2.0",
-                "PRODID:-//OfficeDays//NONSGML v1.0//EN",
+                "PRODID:-//OfficeDaysApp//EN", // Changed PRODID
+                `X-WR-CALNAME:Office Schedule - ${calName}`, // Added X-WR-CALNAME
                 "CALSCALE:GREGORIAN"
-            ].join("\\r\\n");
+            ].join("\\r\\n") + "\\r\\n"; // Add \r\n after the last header
 
-            const footer = "\\r\\nEND:VCALENDAR";
+            const footer = "END:VCALENDAR";
 
-            return header + "\\r\\n" + icsEvents.join("\\r\\n") + footer;
+            return header + icsEvents.join("\\r\\n") + "\\r\\n" + footer;
         }
 
         function downloadICSFile(icsData, filename) {
@@ -2216,9 +2248,11 @@
             });
         }
 
-        const addToCalendarButton = document.getElementById('add-to-calendar-button');
-        if (addToCalendarButton) {
-            addToCalendarButton.addEventListener('click', function() {
+        const addToCalendarTextTrigger = document.getElementById('add-to-calendar-text-trigger');
+        if (addToCalendarTextTrigger) {
+            addToCalendarTextTrigger.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevent default anchor behavior
+
                 if (!activeScheduleData || !activeScheduleData.name || activeScheduleData.patternType === 'none') {
                     if (toastMessage && toastNotification && mainContainer) {
                         toastMessage.textContent = "Please set up and save a schedule first, or ensure the active schedule has a defined pattern.";
@@ -2234,50 +2268,66 @@
 
                 if (toastMessage && toastNotification && mainContainer) {
                     const toastHTML = `
-                        <p>Click your preferred calendar option:</p>
-                        <a href="#" id="download-ical-link" class="toast-button" style="display: block; margin: 5px 0; padding: 8px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; text-align: center;">Download iCal File (.ics)</a>
-                        <a href="#" id="download-google-link" class="toast-button" style="display: block; margin: 5px 0; padding: 8px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px; text-align: center;">For Google/Outlook/etc. (Download .ics)</a>
-                        <small style="display: block; margin-top: 10px;">Download the .ics file. You can then import it into iCal, Google Calendar, Outlook, and other calendar applications.</small>
+                        <p style="margin-bottom: 10px; font-weight: bold;">Select your calendar type:</p>
+                        <div style="text-align: left; margin-bottom: 5px;">
+                          <input type="radio" id="cal-type-ical" name="calendar-type" value="iCal" checked style="margin-right: 5px;">
+                          <label for="cal-type-ical">iCal / Apple Calendar</label>
+                        </div>
+                        <div style="text-align: left; margin-bottom: 5px;">
+                          <input type="radio" id="cal-type-outlook" name="calendar-type" value="Outlook" style="margin-right: 5px;">
+                          <label for="cal-type-outlook">Outlook</label>
+                        </div>
+                        <div style="text-align: left; margin-bottom: 15px;">
+                          <input type="radio" id="cal-type-google" name="calendar-type" value="Google" style="margin-right: 5px;">
+                          <label for="cal-type-google">Google Calendar</label>
+                        </div>
+                        <button id="confirm-add-calendar" class="toast-button">Add to Calendar</button>
                     `;
                     toastMessage.innerHTML = toastHTML;
                     toastNotification.classList.add('toast-visible');
                     mainContainer.classList.add('blur-active');
 
-                    const downloadIcalLink = document.getElementById('download-ical-link');
-                    const downloadGoogleLink = document.getElementById('download-google-link');
-
-                    function handleDownloadRequest() {
-                        if (activeScheduleData && activeScheduleData.name) {
-                            const icsData = generateICalData(activeScheduleData);
-                            const filename = activeScheduleData.name.replace(/[^a-zA-Z0-9_]/g, '_') + "_Office_Schedule.ics";
-                            downloadICSFile(icsData, filename);
-
-                            toastNotification.classList.remove('toast-visible');
-                            mainContainer.classList.remove('blur-active');
-                        }
-                    }
-
-                    if (downloadIcalLink) {
-                        downloadIcalLink.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            handleDownloadRequest();
-                        });
-                    }
-                    if (downloadGoogleLink) {
-                        downloadGoogleLink.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            handleDownloadRequest();
-                        });
-                    }
-
-                    toastNotification.addEventListener('click', function(e) {
-                        if (e.target === toastNotification) {
-                           toastNotification.classList.remove('toast-visible');
-                           mainContainer.classList.remove('blur-active');
-                        }
-                    } , { once: true });
+                    attachConfirmAddCalendarListener();
                 }
             });
+        }
+
+        function attachConfirmAddCalendarListener() {
+            const confirmButton = document.getElementById('confirm-add-calendar');
+            if (confirmButton) {
+                confirmButton.addEventListener('click', function() {
+                    const selectedTypeInput = document.querySelector('input[name="calendar-type"]:checked');
+                    if (!selectedTypeInput) {
+                        toastMessage.textContent = "Please select a calendar type.";
+                        setTimeout(() => {
+                            // Optionally reset to selection toast if needed, or just let it fade
+                        }, 2000);
+                        return;
+                    }
+                    const selectedType = selectedTypeInput.value;
+
+                    const icsData = generateICalData(activeScheduleData);
+                    const filename = activeScheduleData.name.replace(/[^a-zA-Z0-9_]/g, '_') + "_Office_Schedule.ics";
+                    downloadICSFile(icsData, filename);
+
+                    let instructionText = "";
+                    if (selectedType === 'Google') {
+                        instructionText = "File downloaded! To add to Google Calendar: Go to Settings (gear icon) &rarr; Settings &rarr; Import & export &rarr; Select file from your computer.";
+                    } else if (selectedType === 'Outlook') {
+                        instructionText = "File downloaded! To add to Outlook: Go to File &rarr; Open & Export &rarr; Import/Export &rarr; Import an iCalendar (.ics) ...";
+                    } else { // Default for iCal/Apple
+                        instructionText = "File downloaded! Double-click the .ics file or drag it into your calendar app (like Apple Calendar).";
+                    }
+
+                    if (toastMessage && toastNotification && mainContainer) {
+                        toastMessage.innerHTML = '<p>' + instructionText + '</p><p style="font-size: 0.8em; margin-top: 10px;">This message will close in 7 seconds.</p>';
+                        setTimeout(() => {
+                            toastNotification.classList.remove('toast-visible');
+                            mainContainer.classList.remove('blur-active');
+                        }, 7000);
+                    }
+                });
+            }
         }
 
         document.getElementById('weekend-toggle').checked = showWeekends;

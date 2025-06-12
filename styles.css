@@ -1379,24 +1379,18 @@ body.setup-active header #new-share-icon {
     /* color: #999; */
 }
 
-/* Add to Calendar Button */
-#add-to-calendar-button {
-    background-color: #28a745; /* Green, similar to #save-setup-button */
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
+/* Add to Calendar Text Trigger */
+#add-to-calendar-text-trigger {
+    color: #51febb; /* Matches inline style used in HTML */
+    text-decoration: underline;
     cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: bold;
     display: block;
-    margin: 20px auto 15px auto; /* Adjusted top margin */
     text-align: center;
-    transition: background-color 0.3s ease;
+    padding: 10px 0;
+    margin: 15px auto;
 }
-
-#add-to-calendar-button:hover {
-    background-color: #218838; /* Darker green on hover */
+#add-to-calendar-text-trigger:hover {
+    color: #40c8a2; /* Slightly darker shade */
 }
 
 /* Toast Buttons (links styled as buttons) */
@@ -1416,20 +1410,4 @@ body.setup-active header #new-share-icon {
 
 .toast-button:hover {
     background-color: var(--dark-brand);
-}
-
-/* Specific style for the first toast button (iCal download) */
-#download-ical-link {
-    background-color: var(--brand-color); /* Default brand color */
-}
-#download-ical-link:hover {
-    background-color: var(--dark-brand);
-}
-
-/* Specific style for the second toast button (Google/Outlook download) */
-#download-google-link {
-    background-color: #4285F4; /* Google Blue */
-}
-#download-google-link:hover {
-    background-color: #357ABD; /* Darker Google Blue */
 }
