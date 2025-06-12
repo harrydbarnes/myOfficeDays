@@ -1143,7 +1143,7 @@ body.setup-active header #new-share-icon {
     .shared-link-info {
         flex-direction: row; /* Changed from column to row */
         align-items: center;   /* Align items vertically */
-        flex-wrap: wrap; /* Allow items to wrap */
+        flex-wrap: wrap; /* Allows wrapping on small screens */
     }
     #shared-link-actions p {
         margin-right: 0; /* Remove auto margin when stacking */
@@ -1381,7 +1381,7 @@ body.setup-active header #new-share-icon {
 
 /* Add to Calendar Text Trigger */
 #add-to-calendar-text-trigger {
-    color: #51febb; /* Matches inline style used in HTML */
+    color: #333333; /* Changed to standard black/dark gray */
     text-decoration: underline;
     cursor: pointer;
     display: block;
@@ -1390,7 +1390,7 @@ body.setup-active header #new-share-icon {
     margin: 15px auto;
 }
 #add-to-calendar-text-trigger:hover {
-    color: #40c8a2; /* Slightly darker shade */
+    color: #111111; /* Darker on hover */
 }
 
 /* Toast Buttons (links styled as buttons) */
