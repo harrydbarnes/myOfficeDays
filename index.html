@@ -243,7 +243,7 @@
         </thead>
         <tbody id="calendar-body"></tbody>
       </table>
-      <a href="#" id="add-to-calendar-text-trigger" style="text-decoration: underline; cursor: pointer; display: block; text-align: center; margin: 15px auto;">Add to Calendar</a>
+      <button id="add-to-calendar-button" class="button-style">Add to Your Calendar</button>
 
       <p id="summer-hours-note" class="note" style="display: none; font-weight: 500;"></p>
 
@@ -2248,10 +2248,10 @@
             });
         }
 
-        const addToCalendarTextTrigger = document.getElementById('add-to-calendar-text-trigger');
-        if (addToCalendarTextTrigger) {
-            addToCalendarTextTrigger.addEventListener('click', function(e) {
-                e.preventDefault(); // Prevent default anchor behavior
+        const addToCalendarButton = document.getElementById('add-to-calendar-button');
+        if (addToCalendarButton) {
+            addToCalendarButton.addEventListener('click', function(e) {
+                e.preventDefault();
 
                 if (!activeScheduleData || !activeScheduleData.name || activeScheduleData.patternType === 'none') {
                     if (toastMessage && toastNotification && mainContainer) {
@@ -2312,7 +2312,7 @@
 
                     let instructionText = "";
                     if (selectedType === 'Google') {
-                        instructionText = "File downloaded! To add to Google Calendar: Go to Settings (gear icon) &rarr; Settings &rarr; Import & export &rarr; Select file from your computer.";
+                        instructionText = "File downloaded! To import into Google Calendar: <br> a. <a href='https://calendar.google.com' target='_blank' style='color: white; font-weight:bold; text-decoration:underline;'>Open Google Calendar</a> in a new tab.<br> b. Click the Settings gear ⚙️ > Settings > Import & export.<br> c. Select the downloaded file from your computer and click 'Import'.";
                     } else if (selectedType === 'Outlook') {
                         instructionText = "File downloaded! To add to Outlook: Go to File &rarr; Open & Export &rarr; Import/Export &rarr; Import an iCalendar (.ics) ...";
                     } else { // Default for iCal/Apple
@@ -2320,11 +2320,11 @@
                     }
 
                     if (toastMessage && toastNotification && mainContainer) {
-                        toastMessage.innerHTML = '<p>' + instructionText + '</p><p style="font-size: 0.8em; margin-top: 10px;">This message will close in 7 seconds.</p>';
+                        toastMessage.innerHTML = '<p>' + instructionText + '</p><p style="font-size: 0.8em; margin-top: 10px;">This message will close in 10 seconds.</p>';
                         setTimeout(() => {
                             toastNotification.classList.remove('toast-visible');
                             mainContainer.classList.remove('blur-active');
-                        }, 7000);
+                        }, 10000); // Increased timeout for longer instructions
                     }
                 });
             }
@@ -2358,5 +2358,3 @@
   </div>
 </body>
 </html>
-
-[end of index.html]
