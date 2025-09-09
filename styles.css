@@ -271,14 +271,14 @@ h1#main-heading .static-text {
   vertical-align: top;
   position: relative;
   /* Simplified and consistent box-shadow for all cells */
-  box-shadow: inset 0 0 0 1px #ddd; 
+  box-shadow: inset 0 0 0 1px #ddd;
   margin: 0;
   display: table-cell; /* Ensure standard table cell behavior */
 }
 #setup-calendar td { /* For 5-day week in setup */
     width: 20%;
     /* Ensure setup calendar also uses the same consistent shadow if it's meant to look similar */
-    box-shadow: inset 0 0 0 1px #ddd; 
+    box-shadow: inset 0 0 0 1px #ddd;
     text-align: center; /* Restored for standard table cell centering */
     vertical-align: middle; /* Restored for standard table cell centering */
     /* Properties from the other #setup-calendar td rule are merged here */
@@ -299,8 +299,8 @@ h1#main-heading .static-text {
   line-height: 1; /* Added this line */
 }
 
-/* Removed the overly complex td + td and tr:last-child td rules 
-   to favor a single, consistent shadow rule on .calendar td 
+/* Removed the overly complex td + td and tr:last-child td rules
+   to favor a single, consistent shadow rule on .calendar td
    and #setup-calendar td.
    The 'inset' shadow ensures the "border" is drawn inside the cell's bounds,
    which works well with border-collapse: separate and border-spacing: 0
@@ -751,7 +751,7 @@ input:checked + .slider:before { transform: translateX(26px); }
     display: flex;
     align-items: center;
     gap: 8px; /* Space between action buttons */
-    flex-shrink: 0; /* Prevent action buttons from shrinking */
+    flex-shrink: 0; /* Prevent action buttons from shrinking too much */
 }
 
 .schedule-editor-actions button {
@@ -823,7 +823,7 @@ input:checked + .slider:before { transform: translateX(26px); }
 /* New Container for Special Periods Configuration */
 .special-periods-config-container {
   display: flex;
-  gap: 15px; 
+  gap: 15px;
   margin-bottom: 20px; /* Add some space below the container */
 }
 
@@ -844,7 +844,7 @@ input:checked + .slider:before { transform: translateX(26px); }
 /* Toast Notification Styles */
 #toast-notification {
     position: fixed;
-    top: 20px; 
+    top: 20px;
     left: 50%;
     transform: translateX(-50%);
     background-color: rgba(0, 0, 0, 0.85); /* Dark, semi-transparent */
@@ -854,7 +854,7 @@ input:checked + .slider:before { transform: translateX(26px); }
     z-index: 2000; /* Ensure it's on top */
     opacity: 0; /* Initially fully transparent */
     visibility: hidden; /* Initially hidden */
-    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out, top 0.4s ease-in-out; 
+    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out, top 0.4s ease-in-out;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
@@ -872,7 +872,7 @@ input:checked + .slider:before { transform: translateX(26px); }
 }
 
 /* Blurred Background Effect */
-.container.blur-active { 
+.container.blur-active {
     filter: blur(4px); /* Adjusted blur amount */
     transition: filter 0.3s ease-out;
     pointer-events: none; /* Prevent interaction with blurred content */
@@ -909,7 +909,7 @@ body.setup-active header #new-share-icon {
   .next-week, .schedule-selector-wrapper { flex: 1; }
   .heading-long { display: block; }
   .heading-short { display: none; }
-  .toggle-group { 
+  .toggle-group {
     justify-content: flex-end; /* Aligns children (toggle-containers) to the end of this group */
     width: auto; /* Group shrinks to content */
     margin-top: 0;
@@ -1016,21 +1016,21 @@ body.setup-active header #new-share-icon {
   .calendar-options { flex-direction: column; align-items: flex-start; }
   .legend { width: 100%; justify-content: flex-start; margin-bottom: 10px; }
   .toggle-group {
-      flex-direction: row; 
+      flex-direction: row;
       justify-content: space-between; /* Space them out on the line */
       gap: 15px; /* Reduced gap, acts as column and row gap */
-      width: 100%; 
-      margin-left: 0; 
-      margin-top: 10px; 
+      width: 100%;
+      margin-left: 0;
+      margin-top: 10px;
       flex-wrap: wrap; /* Allow wrapping */
   }
-  .toggle-container { 
-      margin-left: 0; 
+  .toggle-container {
+      margin-left: 0;
       margin-bottom: 0; /* Remove bottom margin, rely on parent's gap */
       /* flex-basis should allow them to fit if possible, remove fixed basis */
       /* justify-content: center; Removed, alignment handled by parent or default */
   }
-  .toggle-container:first-child { 
+  .toggle-container:first-child {
       /* flex-basis: auto; Removed, behaves like other toggle-containers */
   }
   .calendar td { min-height: 50px; padding-bottom: 25px; }
@@ -1143,7 +1143,7 @@ body.setup-active header #new-share-icon {
     .shared-link-info {
         flex-direction: row; /* Changed from column to row */
         align-items: center;   /* Align items vertically */
-        flex-wrap: wrap; /* Allow items to wrap */
+        flex-wrap: wrap; /* Allows wrapping on small screens */
     }
     #shared-link-actions p {
         margin-right: 0; /* Remove auto margin when stacking */
@@ -1365,37 +1365,6 @@ body.setup-active header #new-share-icon {
     font-style: italic;
     /* color: #999; */
 }
-
-/* --- Responsive Fixes for Small Mobile Screens --- */
-
-/* Targeting iPhone SE (320px width) and similar small screens */
-@media (max-width: 360px) {
-    /* Fix for cut-off date/time inputs */
-    .setup-subsection input[type="date"],
-    .setup-subsection input[type="time"] {
-        padding-left: 6px; /* Reduce padding */
-        padding-right: 6px;
-        font-size: 0.9rem; /* Slightly smaller font */
-    }
-
-    /* Fix for legend wrapping */
-    .legend {
-        gap: 10px; /* Reduce gap between legend items */
-        font-size: 0.8rem; /* Slightly reduce font size for legend text */
-    }
-    .legend-item {
-        /* Minor adjustment to ensure they don't have extra space causing wrap */
-        margin-bottom: 2px; /* Add a little space if they do wrap, to prevent touching */
-    }
-    .legend-color {
-        width: 16px; /* Slightly smaller color box */
-        height: 16px;
-        margin-right: 4px; /* Slightly less margin */
-    }
-    .legend-color.office-color::before {
-        width: 3px; /* Adjust office highlight bar thickness */
-    }
-}
 #schedule-name-input::-moz-placeholder { /* Firefox 19+ */
     font-style: italic;
     /* color: #999; */
@@ -1408,4 +1377,37 @@ body.setup-active header #new-share-icon {
 #schedule-name-input::-ms-input-placeholder { /* Microsoft Edge */
     font-style: italic;
     /* color: #999; */
+}
+
+/* Add to Calendar Text Trigger */
+#add-to-calendar-text-trigger {
+    color: #333333; /* Changed to standard black/dark gray */
+    text-decoration: underline;
+    cursor: pointer;
+    display: block;
+    text-align: center;
+    padding: 10px 0;
+    margin: 15px auto;
+}
+#add-to-calendar-text-trigger:hover {
+    color: #111111; /* Darker on hover */
+}
+
+/* Toast Buttons (links styled as buttons) */
+.toast-button {
+    display: block;
+    margin: 10px 0; /* Increased margin for better spacing */
+    padding: 12px; /* Increased padding */
+    background-color: var(--brand-color);
+    color: white !important;
+    text-decoration: none !important;
+    border-radius: 5px; /* Consistent with other buttons */
+    text-align: center;
+    font-weight: 500;
+    font-size: 0.95rem; /* Slightly larger font for readability */
+    transition: background-color 0.2s ease-in-out;
+}
+
+.toast-button:hover {
+    background-color: var(--dark-brand);
 }
