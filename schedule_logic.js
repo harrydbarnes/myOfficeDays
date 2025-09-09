@@ -365,6 +365,44 @@ function isOfficeDay(date, activeScheduleData) {
     return isOfficeDayInternal(date, activeScheduleData);
 }
 
+function uint8ArrayToBase64(uint8Array) {
+    let i,
+        len = uint8Array.length,
+        base64 = "";
+    const b64chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+    for (i = 0; i < len; i += 3) {
+        let a = uint8Array[i];
+        let b = uint8Array[i + 1];
+        let c = uint8Array[i + 2];
+
+        let b1 = a >> 2;
+        let b2 = ((a & 3) << 4) | (b >> 4);
+        let b3 = ((b & 15) << 2) | (c >> 6);
+        let b4 = c & 63;
+
+        if (isNaN(b)) {
+            b3 = b4 = 64;
+        } else if (isNaN(c)) {
+            b4 = 64;
+        }
+
+        base64 += b64chars[b1] + b64chars[b2] + b64chars[b3] + b64chars[b4];
+    }
+
+    return base64;
+}
+
+function base64ToUint8Array(base64Str, atobFunc) {
+    const binaryString = atobFunc(base64Str);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes;
+}
+
 function generateICalData(scheduleData) {
     const icsEvents = [];
     const today = new Date();
@@ -445,11 +483,7 @@ function parseAndApplyShortcode(encodedShortcode, pako, atob, TextDecoder) {
 
     let compressedData;
     try {
-        const binaryString = atob(encodedShortcode);
-        compressedData = new Uint8Array(binaryString.length);
-        for (let i = 0; i < binaryString.length; i++) {
-            compressedData[i] = binaryString.charCodeAt(i);
-        }
+        compressedData = base64ToUint8Array(encodedShortcode, atob);
     } catch (e) {
         return { error: true, stage: 'decoding', message: 'Link data is not correctly encoded.' };
     }
@@ -516,6 +550,8 @@ try {
             isOfficeDayInternal,
             isOfficeDay,
             generateICalData,
+            uint8ArrayToBase64,
+            base64ToUint8Array,
             parseAndApplyShortcode
         };
     }

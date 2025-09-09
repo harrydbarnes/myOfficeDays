@@ -1636,11 +1636,7 @@
 
                         // Compression logic
                         const compressedData = pako.deflate(new TextEncoder().encode(jsonString), { level: 9 });
-                        let compressedBinaryString = '';
-                        for (let k = 0; k < compressedData.length; k++) {
-                            compressedBinaryString += String.fromCharCode(compressedData[k]);
-                        }
-                        const shortcode = btoa(compressedBinaryString);
+                        const shortcode = uint8ArrayToBase64(compressedData);
                         const linkToCopy = `${window.location.origin}${window.location.pathname}?s=${shortcode}`;
 
                         navigator.clipboard.writeText(linkToCopy).then(() => {

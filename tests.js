@@ -13,7 +13,8 @@ const {
     isFestiveBreak,
     isSummerHoursDay,
     generateICalData,
-    isBankHoliday
+    isBankHoliday,
+    uint8ArrayToBase64
 } = require('./schedule_logic.js');
 
 
@@ -76,8 +77,7 @@ let fullScheduleToShare1 = generateScheduleToShare(activeSchedule1);
 let compactScheduleToShare1 = convertToCompactFormat(fullScheduleToShare1);
 let jsonString1 = JSON.stringify(compactScheduleToShare1);
 const compressedData1 = pako.deflate(new TextEncoder().encode(jsonString1), { level: 9 });
-const compressedBinaryString1 = String.fromCharCode.apply(null, compressedData1);
-let shortcode1 = btoa(compressedBinaryString1);
+let shortcode1 = uint8ArrayToBase64(compressedData1);
 let parsedResult1 = parseAndApplyShortcode(shortcode1, pako, atob, TextDecoder);
 
 console.log_debug("Test 1 Compact Shortcode:", shortcode1);
@@ -91,6 +91,36 @@ assertEqual(parsedResult1.patternType, 'constant', "Test 1.3: Pattern type match
 assertDeepEqual(parsedResult1.selections.week1, [1, 3, 5], "Test 1.4: Selections match");
 assertEqual(parsedResult1.summerHours.enabled, false, "Test 1.5: Summer hours disabled by default in compact if not present");
 assertEqual(parsedResult1.festiveBreak.enabled, false, "Test 1.6: Festive break disabled by default in compact if not present");
+
+// Test Case 2: Complex Schedule with Empty Weeks (Simulating User's Issue)
+console.log("\n--- Starting Part 2: Complex Schedule with Empty Weeks ---");
+let activeSchedule2 = getDefaultScheduleStructure("Test Complex");
+activeSchedule2.patternType = 'custom_4_week';
+activeSchedule2.selections = { week1: [2, 3], week2: [1, 2], week3: [4, 5], week4: [] };
+activeSchedule2.patternAnchorDate = "2025-09-01";
+activeSchedule2.summerHours.enabled = true; // Also test with other features enabled
+activeSchedule2.summerHours.startDate = "2025-06-01";
+activeSchedule2.summerHours.endDate = "2025-08-31";
+
+let fullScheduleToShare2 = generateScheduleToShare(activeSchedule2);
+let compactScheduleToShare2 = convertToCompactFormat(fullScheduleToShare2);
+let jsonString2 = JSON.stringify(compactScheduleToShare2);
+const compressedData2 = pako.deflate(new TextEncoder().encode(jsonString2), { level: 9 });
+let shortcode2 = uint8ArrayToBase64(compressedData2);
+let parsedResult2 = parseAndApplyShortcode(shortcode2, pako, atob, TextDecoder);
+
+console.log_debug("Test 2 Compact Shortcode:", shortcode2);
+console.log_debug("Test 2 Parsed Full:", JSON.stringify(parsedResult2));
+console.log_debug("Test 2 Compact Data used for stringify:", JSON.stringify(compactScheduleToShare2));
+
+assert(parsedResult2 && !parsedResult2.error, "Test 2.1: Complex schedule with empty week parses without error");
+if (parsedResult2 && !parsedResult2.error) {
+    assertEqual(parsedResult2.name, "Test Complex", "Test 2.2: Name matches on complex schedule");
+    assertEqual(parsedResult2.patternType, 'custom_4_week', "Test 2.3: Pattern type matches on complex schedule");
+    assertDeepEqual(parsedResult2.selections.week4, [], "Test 2.4: Empty week selection matches");
+    assertDeepEqual(parsedResult2.selections.week1, [2, 3], "Test 2.5: Non-empty week selection matches");
+    assertEqual(parsedResult2.summerHours.enabled, true, "Test 2.6: Summer hours enabled status matches");
+}
 
 // ... (rest of the existing tests) ...
 
