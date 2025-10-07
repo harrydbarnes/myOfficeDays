@@ -6,7 +6,7 @@ global.console.log_debug = console.log;
 // Polyfill for atob and TextDecoder in Node.js environment
 if (typeof atob === 'undefined') {
   global.atob = function (b64Encoded) {
-    return new Buffer.from(b64Encoded, 'base64').toString('binary');
+    return Buffer.from(b64Encoded, 'base64').toString('binary');
   };
 }
 if (typeof TextDecoder === 'undefined') {
