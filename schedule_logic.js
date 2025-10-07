@@ -237,15 +237,15 @@ function deduceAndDisplayPattern(currentDraftDates) {
         deducedSelections.week3 = singleWeekSelections;
         deducedSelections.week4 = singleWeekSelections;
     } else if (uniqueActiveWeeks.length === 2) {
-        if (w1S === w3S && w2S === w4S) {
+        if (w1S === w4S && w2S === w3S) {
+            determinedPatternType = 'abba';
+            description = `ABBA Pattern. W1&4: (${deducedSelections.week1.map(d => getDayName(d)).join(', ') || 'No days'}), W2&3: (${deducedSelections.week2.map(d => getDayName(d)).join(', ') || 'No days'}). Office Queen!`;
+        } else if (w1S === w3S && w2S === w4S) {
             determinedPatternType = 'ab';
             description = `A/B Pattern. A: (${deducedSelections.week1.map(d => getDayName(d)).join(', ') || 'No days'}), B: (${deducedSelections.week2.map(d => getDayName(d)).join(', ') || 'No days'}).`;
         } else if (w1S === w2S && w3S === w4S) {
             determinedPatternType = 'aa_bb';
             description = `AA/BB Pattern. W1&2: (${deducedSelections.week1.map(d => getDayName(d)).join(', ') || 'No days'}), W3&4: (${deducedSelections.week3.map(d => getDayName(d)).join(', ') || 'No days'}).`;
-        } else if (w1S === w4S && w2S === w3S) {
-            determinedPatternType = 'abba';
-            description = `ABBA Pattern. W1&4: (${deducedSelections.week1.map(d => getDayName(d)).join(', ') || 'No days'}), W2&3: (${deducedSelections.week2.map(d => getDayName(d)).join(', ') || 'No days'}). Office Queen!`;
         } else {
             const weekPatternsForDesc = [];
             if(w1S !== emptyS) weekPatternsForDesc.push(`W1: ${deducedSelections.week1.map(d => getDayName(d)).join(', ')}`);

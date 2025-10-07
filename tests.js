@@ -3,6 +3,22 @@
 // To enable debug logs for testing, uncomment the line below and comment the line above.
 global.console.log_debug = console.log;
 
+// Polyfill for atob and TextDecoder in Node.js environment
+if (typeof atob === 'undefined') {
+  global.atob = function (b64Encoded) {
+    return new Buffer.from(b64Encoded, 'base64').toString('binary');
+  };
+}
+if (typeof TextDecoder === 'undefined') {
+    const util = require('util');
+    global.TextDecoder = util.TextDecoder;
+}
+if (typeof TextEncoder === 'undefined') {
+    const util = require('util');
+    global.TextEncoder = util.TextEncoder;
+}
+
+
 const pako = require('./pako.min.js');
 const {
     getDefaultScheduleStructure,
@@ -121,6 +137,29 @@ if (parsedResult2 && !parsedResult2.error) {
     assertDeepEqual(parsedResult2.selections.week1, [2, 3], "Test 2.5: Non-empty week selection matches");
     assertEqual(parsedResult2.summerHours.enabled, true, "Test 2.6: Summer hours enabled status matches");
 }
+
+// Test Case 3: Correctly Deducing an ABBA Pattern
+console.log("\n--- Starting Part 3: Correctly Deducing an ABBA Pattern ---");
+const abbaDates = [
+    // Week 1 (A): Mon, Tue
+    '2025-01-06', '2025-01-07',
+    // Week 2 (B): Wed, Thu
+    '2025-01-15', '2025-01-16',
+    // Week 3 (B): Wed, Thu
+    '2025-01-22', '2025-01-23',
+    // Week 4 (A): Mon, Tue
+    '2025-01-27', '2025-01-28',
+];
+let abbaPattern = deduceAndDisplayPattern(abbaDates);
+
+console.log_debug("Test 3 Deduced ABBA Pattern:", JSON.stringify(abbaPattern));
+
+assert(abbaPattern, "Test 3.1: ABBA pattern deduction returns a result");
+assertEqual(abbaPattern.patternType, 'abba', "Test 3.2: Correctly identifies an ABBA pattern");
+assertDeepEqual(abbaPattern.selections.week1, [1, 2], "Test 3.3: ABBA pattern week 1 (A) is correct");
+assertDeepEqual(abbaPattern.selections.week2, [3, 4], "Test 3.4: ABBA pattern week 2 (B) is correct");
+assertDeepEqual(abbaPattern.selections.week3, [3, 4], "Test 3.5: ABBA pattern week 3 (B) is correct");
+assertDeepEqual(abbaPattern.selections.week4, [1, 2], "Test 3.6: ABBA pattern week 4 (A) is correct");
 
 // ... (rest of the existing tests) ...
 
